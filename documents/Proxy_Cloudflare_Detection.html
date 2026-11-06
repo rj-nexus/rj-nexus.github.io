@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proxy / Cloudflare Detection</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f4f3f8;--surface:#ffffff;--surface-2:#faf9fd;--line:#e7e5f0;--text:#1c1a29;--muted:#6b6880;
+  --brand:#7c3aed;--brand-2:#ec4899;--brand-soft:#f0e9fe;
+  --warn-bg:#fff7e6;--warn-line:#f5d489;--warn-text:#7a4b00;--warn-icon:#d98a00;
+  --ok-bg:#ecfaf1;--ok-line:#a8e3bf;--ok-text:#0f5a2f;--ok-icon:#1a9d55;
+  --bad-bg:#fff0f0;--bad-line:#f6b9b9;--bad-text:#8a1c1c;--bad-strong:#d92d2d;
+  --code-bg:#17152a;--code-text:#e9e6ff;--shadow:0 1px 2px rgba(28,26,41,.06),0 12px 32px -12px rgba(76,29,149,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f0e1a;--surface:#181628;--surface-2:#1d1b30;--line:#2c2942;--text:#f1effa;--muted:#9a97b3;
+    --brand:#a78bfa;--brand-2:#f472b6;--brand-soft:#2a2150;
+    --warn-bg:#2b2208;--warn-line:#5c4710;--warn-text:#f6d58a;--warn-icon:#f0b429;
+    --ok-bg:#0e2a1b;--ok-line:#1e5a38;--ok-text:#9be4b8;--ok-icon:#3ddc84;
+    --bad-bg:#2e1315;--bad-line:#64262a;--bad-text:#ffb4b4;--bad-strong:#ff6b6b;
+    --code-bg:#0a0916;--code-text:#e9e6ff;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f0e1a;--surface:#181628;--surface-2:#1d1b30;--line:#2c2942;--text:#f1effa;--muted:#9a97b3;
+  --brand:#a78bfa;--brand-2:#f472b6;--brand-soft:#2a2150;
+  --warn-bg:#2b2208;--warn-line:#5c4710;--warn-text:#f6d58a;--warn-icon:#f0b429;
+  --ok-bg:#0e2a1b;--ok-line:#1e5a38;--ok-text:#9be4b8;--ok-icon:#3ddc84;
+  --bad-bg:#2e1315;--bad-line:#64262a;--bad-text:#ffb4b4;--bad-strong:#ff6b6b;
+  --code-bg:#0a0916;--code-text:#e9e6ff;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -12px rgba(0,0,0,.6);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.topbar-in{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;letter-spacing:-.02em}
+.crumbs{font-size:14px;color:var(--muted)}
+.crumbs b{color:var(--text);font-weight:600}
+main{max-width:880px;margin:0 auto;padding:40px 20px 72px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.03em;margin:0 0 12px;font-weight:750}
+.lead{margin:0;color:var(--muted);font-size:17px;max-width:60ch}
+.tabs{display:flex;gap:6px;margin:32px 0 20px;padding:5px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow-x:auto;box-shadow:var(--shadow)}
+.tab{flex:1 0 auto;border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:10px 16px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;transition:background .15s,color .15s}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:var(--brand-soft);color:var(--brand)}
+.tab:focus-visible,.btn:focus-visible,summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot.warn{background:var(--warn-icon)}.dot.ok{background:var(--ok-icon)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.card-head{padding:24px 28px;border-bottom:1px solid var(--line)}
+.card-head h2{margin:0 0 4px;font-size:19px;letter-spacing:-.01em}
+.card-head p{margin:0;color:var(--muted);font-size:14px}
+.card-body{padding:24px 28px;display:grid;gap:18px}
+.status{display:flex;gap:14px;padding:18px;border-radius:14px;border:1px solid}
+.status.warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-text)}
+.status.ok{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok-text)}
+.status svg{width:24px;height:24px;flex:none;margin-top:1px}
+.status.warn svg{color:var(--warn-icon)}.status.ok svg{color:var(--ok-icon)}
+.status h3{margin:0 0 4px;font-size:16px}
+.status p{margin:0;font-size:14px;line-height:1.6}
+.headers{border:1px solid var(--line);border-radius:14px;background:var(--surface-2);font-size:13px;overflow:hidden}
+.row{display:flex;justify-content:space-between;gap:16px;padding:11px 16px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row .k{color:var(--muted);flex:none}
+.row .v{text-align:right;min-width:0;overflow-wrap:anywhere}
+.row.final{background:var(--surface)}
+.row .v.bad{color:var(--bad-strong);font-weight:700}
+.row .v.good{color:var(--ok-icon);font-weight:700}
+.lock{display:flex;gap:12px;padding:14px 16px;border-radius:14px;background:var(--bad-bg);border:1px solid var(--bad-line);color:var(--bad-text);font-size:14px}
+.lock svg{width:20px;height:20px;flex:none;color:var(--bad-strong);margin-top:1px}
+.lock code,.inline{background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:12.5px}
+details{border:1px solid var(--line);border-radius:14px;background:var(--surface-2)}
+summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:650;font-size:14px;display:flex;align-items:center;justify-content:space-between;border-radius:14px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px}
+details[open] summary::after{transform:rotate(-135deg)}
+.fix{padding:0 16px 16px;display:grid;gap:12px;font-size:14px;color:var(--muted)}
+.fix p{margin:0}
+.codewrap{position:relative}
+pre{margin:0;background:var(--code-bg);color:var(--code-text);border-radius:12px;padding:16px;overflow-x:auto;font-size:12.5px;line-height:1.7;max-width:100%}
+.btn{position:absolute;top:10px;right:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:12px;font-weight:600;padding:5px 11px;border-radius:8px;cursor:pointer}
+.btn:hover{background:rgba(255,255,255,.16)}
+.fix a{color:var(--brand);font-weight:600}
+.foot{margin-top:24px;font-size:13px;color:var(--muted);text-align:center}
+[hidden]{display:none!important}
+@media (max-width:520px){
+  .card-head,.card-body{padding:20px 18px}
+  .row{flex-direction:column;gap:2px}
+  .row .v{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo">RJ</div>
+    <div class="crumbs">Settings › <b>Security</b></div>
+  </div>
+</header>
+
+<main>
+  <h1>Proxy / Cloudflare detection</h1>
+  <p class="lead">Check how your server sees visitor IP addresses before you turn on IP-based features like whitelist, blacklist and rate limiting.</p>
+
+  <div class="tabs" role="tablist" aria-label="Detection result">
+    <button class="tab" role="tab" aria-selected="true" data-case="detected" id="t-detected"><span class="dot warn"></span>Proxy detected</button>
+    <button class="tab" role="tab" aria-selected="false" data-case="none" id="t-none"><span class="dot ok"></span>No proxy</button>
+    <button class="tab" role="tab" aria-selected="false" data-case="trusted" id="t-trusted"><span class="dot ok"></span>Proxy trusted</button>
+  </div>
+
+  <section class="card" role="tabpanel" aria-live="polite">
+    <div class="card-head">
+      <h2>Client IP detection</h2>
+      <p>Verify how your server detects client IP addresses before enabling IP-based features.</p>
+    </div>
+    <div class="card-body" id="panel"></div>
+  </section>
+
+  <p class="foot">The result is checked every time you open this page.</p>
+</main>
+
+<script>
+(function(){
+  var warnIcon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>';
+  var okIcon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+  var lockIcon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4"/></svg>';
+  var snippet="->withMiddleware(function (Middleware $middleware) {\n    $middleware->trustProxies(at: [\n        '173.245.48.0/20',\n        '103.21.244.0/22',\n        '103.22.200.0/22',\n        '104.16.0.0/13',\n        '172.64.0.0/13',\n        '131.0.72.0/22',\n    ]);\n})";
+
+  function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function row(k,v,cls,final){return '<div class="row'+(final?' final':'')+'"><span class="k">'+k+'</span><span class="v '+(cls||'')+'">'+v+'</span></div>';}
+
+  var cases={
+    detected:function(){
+      return '<div class="status warn">'+warnIcon+'<div><h3>Proxy or Cloudflare detected</h3><p>Your site appears to be behind a proxy or CDN. IP-based features will use the proxy’s IP instead of the visitor’s real IP, which can lock you out of the admin panel.</p></div></div>'+
+      '<div class="headers mono">'+
+        row('CF-Connecting-IP','203.0.113.42')+
+        row('X-Forwarded-For','203.0.113.42, 172.68.1.1')+
+        row('REMOTE_ADDR','172.68.1.1')+
+        row('request()-&gt;ip()','172.68.1.1 ← not the real IP','bad',true)+
+      '</div>'+
+      '<div class="lock">'+lockIcon+'<div><strong>IP whitelist and blacklist are turned off</strong> to prevent locking you out. Set <code>trustProxies</code> in <code>bootstrap/app.php</code> to enable them.</div></div>'+
+      '<details><summary>How to fix: configure trusted proxies</summary><div class="fix">'+
+        '<p>Add this to <code class="inline mono">bootstrap/app.php</code>:</p>'+
+        '<div class="codewrap"><pre class="mono"><code>'+esc(snippet)+'</code></pre><button class="btn" type="button" id="copy">Copy</button></div>'+
+        '<p>The full range list is at <a href="https://www.cloudflare.com/ips/" target="_blank" rel="noopener">cloudflare.com/ips</a>. After saving, run <code class="inline mono">php artisan config:clear</code>.</p>'+
+      '</div></details>';
+    },
+    none:function(){
+      return '<div class="status ok">'+okIcon+'<div><h3>No proxy detected</h3><p>Your server receives connections directly. IP-based features (whitelist, blacklist, rate limiting) work correctly.</p></div></div>'+
+      '<div class="headers mono">'+row('request()-&gt;ip()','203.0.113.42','good',true)+'</div>';
+    },
+    trusted:function(){
+      return '<div class="status ok">'+okIcon+'<div><h3>Proxy detected and configured correctly</h3><p>Your site is behind a proxy, and Laravel is set to trust it. Real visitor IPs are detected correctly.</p></div></div>'+
+      '<div class="headers mono">'+
+        row('CF-Connecting-IP','203.0.113.42')+
+        row('request()-&gt;ip()','203.0.113.42 ✓','good',true)+
+      '</div>';
+    }
+  };
+
+  var panel=document.getElementById('panel');
+  var tabs=document.querySelectorAll('.tab');
+
+  function show(name){
+    panel.innerHTML=cases[name]();
+    tabs.forEach(function(t){t.setAttribute('aria-selected',t.dataset.case===name?'true':'false');});
+    var c=document.getElementById('copy');
+    if(c){
+      c.addEventListener('click',function(){
+        var done=function(){c.textContent='Copied';setTimeout(function(){c.textContent='Copy';},1600);};
+        try{
+          if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(snippet).then(done,function(){});}
+          else{var ta=document.createElement('textarea');ta.value=snippet;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
+        }catch(e){}
+      });
+    }
+    try{history.replaceState(null,'','#'+name);}catch(e){}
+  }
+
+  tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.case);});});
+  window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(cases[h])show(h);});
+  var start=location.hash.slice(1);
+  show(cases[start]?start:'detected');
+})();
+</script>
+</body>
+</html>
