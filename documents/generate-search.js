@@ -1,55 +1,73 @@
 const fs = require('fs');
 const path = require('path');
 
-// Qovluq yolları
 const contentDir = path.join(__dirname, 'documentation', 'content');
 const outputDir = path.join(__dirname, 'documentation');
 const outputFile = path.join(outputDir, 'search.json');
 
-// Qovluqlar yoxdursa, yaradırıq (Xətanın qarşısını alır)
-if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-}
+if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 if (!fs.existsSync(contentDir)) {
     fs.mkdirSync(contentDir, { recursive: true });
-    console.log('⚠️ content qovluğu yaradıldı. İçinə .md faylları əlavə edin.');
+    console.log('content folder created. Add .md files.');
+    process.exit(0);
 }
 
-function extractTitle(markdown) {
-    const match = markdown.match(/^#\s+(.+)$/m);
-    return match ? match[1].trim() : 'Untitled Document';
+function extractTitle(markdown, slug) {
+    const h1 = markdown.match(/^#\s+(.+?)\s*$/m);
+    if (h1) return h1[1].trim();
+    const h2 = markdown.match(/^##\s+(.+?)\s*$/m);
+    if (h2) return h2[1].trim();
+    return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
-function stripMarkdown(markdown) {
+function extractHeadings(markdown) {
+    const matches = markdown.matchAll(/^#{1,6}\s+(.+?)\s*$/gm);
+    return Array.from(matches).map(m => m[1].trim()).join(' | ');
+}
+
+function cleanContent(markdown) {
     return markdown
-        .replace(/^#{1,6}\s+/gm, '')
-        .replace(/(\*\*|__)(.*?)\1/g, '$2')
-        .replace(/(\*|_)(.*?)\1/g, '$2')
+        .replace(/^---[\s\S]*?---\n/, '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/!\[([^\]]*)\]\([^\)]+\)/g, '$1')
         .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
-        .replace(/`{1,3}[^`]*`{1,3}/g, '')
-        .replace(/```[\s\S]*?```/g, '')
-        .replace(/!\[[^\]]*\]\([^\)]+\)/g, '')
+        .replace(/(\*\*|__)(.+?)\1/g, '$2')
+        .replace(/(\*|_)(.+?)\1/g, '$2')
+        .replace(/```\w*\s*/g, ' ')
+        .replace(/```/g, ' ')
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/^>\s*/gm, '')
+        .replace(/^\s*[-*+]\s+/gm, '')
+        .replace(/^\s*\d+\.\s+/gm, '')
+        .replace(/^#{1,6}\s+/gm, '')
         .replace(/\s+/g, ' ')
         .trim();
 }
 
-if (fs.existsSync(contentDir)) {
-    const files = fs.readdirSync(contentDir).filter(f => f.endsWith('.md'));
-    
-    const searchData = files.map(file => {
-        const slug = path.basename(file, '.md');
-        const filePath = path.join(contentDir, file);
-        const rawContent = fs.readFileSync(filePath, 'utf-8');
-        
-        return {
-            slug: slug,
-            title: extractTitle(rawContent),
-            content: stripMarkdown(rawContent)
-        };
-    });
-
-    fs.writeFileSync(outputFile, JSON.stringify(searchData, null, 2));
-    console.log(`✅ Uğurlu! ${files.length} sənəd oxundu və search.json yeniləndi.`);
-} else {
-    console.log('❌ Xəta: content qovluğu tapılmadı!');
+function makeExcerpt(content, maxLen = 200) {
+    if (content.length <= maxLen) return content;
+    const cut = content.slice(0, maxLen);
+    const lastSpace = cut.lastIndexOf(' ');
+    return cut.slice(0, lastSpace > 100 ? lastSpace : maxLen) + '...';
 }
+
+const files = fs.readdirSync(contentDir).filter(f => f.endsWith('.md'));
+
+const searchData = files.map(file => {
+    const slug = path.basename(file, '.md');
+    const filePath = path.join(contentDir, file);
+    const rawContent = fs.readFileSync(filePath, 'utf-8');
+    const clean = cleanContent(rawContent);
+    const headings = extractHeadings(rawContent);
+
+    return {
+        slug,
+        title: extractTitle(rawContent, slug),
+        headings,
+        content: clean,
+        excerpt: makeExcerpt(clean)
+    };
+});
+
+fs.writeFileSync(outputFile, JSON.stringify(searchData, null, 2));
+console.log(`Success: ${files.length} documents processed`);
