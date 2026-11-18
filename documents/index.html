@@ -33,7 +33,7 @@
             position: relative;
         }
 
-        /* === ARXA FON İŞIQLARI === */
+        /* === ARXA FON İŞIQLARI (GLASS EFFEKTİ ÜÇÜN) === */
         .bg-orb {
             position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; opacity: 0.5;
             animation: float 10s infinite alternate; pointer-events: none;
@@ -141,6 +141,7 @@
 
     <!-- Sol Menyu -->
     <div class="sidebar">
+        <!-- KÖKDƏKİ index.html-Ə QAYITMAQ ÜÇÜN YOL: ../ -->
         <a href="../index.html" class="home-link">
             <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
             Back to Home
@@ -172,8 +173,8 @@
 
         async function init() {
             try {
-                // 1. Menyunu yükləyirik
-                const menuResponse = await fetch('./menu.json');
+                // 1. Menyunu documentation/ qovluğundan yükləyirik
+                const menuResponse = await fetch('./documentation/menu.json');
                 if (menuResponse.ok) {
                     const menuItems = await menuResponse.json();
                     renderMenu(menuItems);
@@ -184,8 +185,8 @@
                     document.getElementById('menu-container').innerHTML = '<li style="color:#ef4444;">Error loading menu.json</li>';
                 }
 
-                // 2. Axtarış bazasını yükləyirik
-                const searchResponse = await fetch('./search.json');
+                // 2. Axtarış bazasını documentation/ qovluğundan yükləyirik
+                const searchResponse = await fetch('./documentation/search.json');
                 if (searchResponse.ok) {
                     searchData = await searchResponse.json();
                 }
@@ -276,8 +277,8 @@
             });
 
             try {
-                // BURADA YOLU DƏQİQLƏŞDİRDİK: content/ qovluğuna girir
-                const response = await fetch(`./content/${slug}.md`);
+                // BURADA DÜZƏLİŞ: documentation/content/ qovluğuna girir
+                const response = await fetch(`./documentation/content/${slug}.md`);
                 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 
@@ -286,11 +287,10 @@
 
             } catch (error) {
                 console.error('Məzmun yüklənmədi:', error);
-                // XƏTA MESAJINI DƏQİQLƏŞDİRDİK: Hansı linki axtardığını göstərir
                 contentArea.innerHTML = `
                     <h1 style="color: #ef4444; font-size: 32px;">404 - Document Not Found</h1>
-                    <p style="color: var(--muted);">The system tried to load: <br><code>./content/${slug}.md</code></p>
-                    <p style="color: var(--muted);">Please make sure this file exists inside the <b>documentation/content/</b> folder.</p>
+                    <p style="color: var(--muted);">The system tried to load: <br><code>./documentation/content/${slug}.md</code></p>
+                    <p style="color: var(--muted);">Please make sure this file exists inside the <b>documents/documentation/content/</b> folder.</p>
                 `;
             }
         }
