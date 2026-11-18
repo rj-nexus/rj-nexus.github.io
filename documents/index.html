@@ -33,36 +33,21 @@
             position: relative;
         }
 
-        /* === ARXA FON İŞIQLARI (GLASS EFFEKTİ ÜÇÜN) === */
+        /* === ARXA FON İŞIQLARI === */
         .bg-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: 0;
-            opacity: 0.5;
-            animation: float 10s infinite alternate;
-            pointer-events: none;
+            position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; opacity: 0.5;
+            animation: float 10s infinite alternate; pointer-events: none;
         }
         .orb-1 { width: 400px; height: 400px; background: rgba(167, 139, 250, 0.3); top: -100px; left: -100px; }
         .orb-2 { width: 300px; height: 300px; background: rgba(244, 114, 182, 0.2); bottom: -50px; right: -50px; animation-delay: -5s; }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
-        }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
 
         /* === SOL MENYU (SIDEBAR) === */
         .sidebar {
-            width: 320px;
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border);
-            padding: 32px 24px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 10;
+            width: 320px; background: var(--surface); backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border); padding: 32px 24px;
+            position: fixed; height: 100vh; overflow-y: auto; z-index: 10;
         }
         
         .home-link {
@@ -78,7 +63,7 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* === AXTARIŞ QUTUSU (GLASS) === */
+        /* === AXTARIŞ QUTUSU === */
         .search-container { margin-bottom: 24px; position: relative; }
         .search-input {
             width: 100%; padding: 12px 16px 12px 40px; border-radius: 12px;
@@ -95,15 +80,10 @@
             display: block; padding: 12px 16px; border-radius: 12px; transition: all 0.2s ease;
             border: 1px solid transparent;
         }
-        .menu-list a:hover {
-            color: var(--text); background: rgba(255,255,255,0.03);
-        }
+        .menu-list a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
         .menu-list a.active {
-            color: var(--primary); 
-            background: rgba(167, 139, 250, 0.1); 
-            border-color: rgba(167, 139, 250, 0.2);
-            border-left: 3px solid var(--primary);
-            font-weight: 600;
+            color: var(--primary); background: rgba(167, 139, 250, 0.1); 
+            border-color: rgba(167, 139, 250, 0.2); border-left: 3px solid var(--primary); font-weight: 600;
         }
 
         /* Axtarış Nəticələri */
@@ -118,23 +98,14 @@
 
         /* === ƏSAS MƏZMUN === */
         .main-content {
-            margin-left: 320px;
-            padding: 60px 80px;
-            flex-grow: 1;
-            max-width: 1000px;
-            position: relative;
-            z-index: 1;
+            margin-left: 320px; padding: 60px 80px; flex-grow: 1; max-width: 1000px;
+            position: relative; z-index: 1;
         }
         
         .content-card {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 48px;
-            box-shadow: 0 30px 60px -30px rgba(0,0,0,0.8);
-            min-height: 80vh;
+            background: var(--surface); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 24px; padding: 48px;
+            box-shadow: 0 30px 60px -30px rgba(0,0,0,0.8); min-height: 80vh;
             animation: fadeIn 0.4s ease;
         }
 
@@ -149,15 +120,8 @@
         .markdown-body a:hover { text-decoration: underline; }
         .markdown-body ul, .markdown-body ol { padding-left: 24px; margin-bottom: 20px; color: var(--muted); line-height: 1.8; }
         .markdown-body li { margin-bottom: 10px; }
-        
-        .markdown-body code {
-            background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px;
-            font-family: 'Fira Code', monospace; color: var(--secondary); font-size: 14px;
-        }
-        .markdown-body pre {
-            background: rgba(0,0,0,0.4); padding: 24px; border-radius: 16px;
-            overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px;
-        }
+        .markdown-body code { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-family: 'Fira Code', monospace; color: var(--secondary); font-size: 14px; }
+        .markdown-body pre { background: rgba(0,0,0,0.4); padding: 24px; border-radius: 16px; overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px; }
         .markdown-body pre code { background: transparent; padding: 0; color: #e5e7eb; font-size: 14px; }
         
         /* Mobil görünüş */
@@ -183,18 +147,15 @@
         </a>
         <h2>Documentation</h2>
 
-        <!-- AXTARIŞ QUTUSU -->
         <div class="search-container">
             <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             <input type="text" id="search-input" class="search-input" placeholder="Search docs...">
         </div>
         
-        <!-- Menyu -->
         <ul class="menu-list" id="menu-container">
             <li><span style="color:var(--muted); font-size:14px;">Loading menu...</span></li>
         </ul>
 
-        <!-- Axtarış Nəticələri üçün Yer -->
         <ul id="search-results"></ul>
     </div>
 
@@ -207,38 +168,32 @@
 
     <!-- JavaScript Məntiqi -->
     <script>
-        let searchData = []; // Axtarış bazası
+        let searchData = []; 
 
-        // 1. Başlanğıc: Həm menyunu, həm axtarış bazasını yükləyirik
         async function init() {
             try {
-                // Menyunu yükləyirik
+                // 1. Menyunu yükləyirik
                 const menuResponse = await fetch('./menu.json');
                 if (menuResponse.ok) {
                     const menuItems = await menuResponse.json();
                     renderMenu(menuItems);
                     
-                    // URL-də hash varsa onu, yoxdursa ilk itemi yüklə
                     const currentHash = window.location.hash.replace('#', '') || (menuItems.length > 0 ? menuItems[0].slug : 'getting-started');
                     loadContent(currentHash);
                 } else {
                     document.getElementById('menu-container').innerHTML = '<li style="color:#ef4444;">Error loading menu.json</li>';
                 }
 
-                // Axtarış bazasını yükləyirik (Əgər hələ GitHub Action yaratmayıbsa, xəta verməsin)
+                // 2. Axtarış bazasını yükləyirik
                 const searchResponse = await fetch('./search.json');
                 if (searchResponse.ok) {
                     searchData = await searchResponse.json();
-                } else {
-                    console.warn('search.json hələ yaradılmayıb. Axtarış işləməyəcək.');
                 }
-
             } catch (error) {
                 console.error('Init error:', error);
             }
         }
 
-        // 2. Menyunu ekrana çəkirik
         function renderMenu(menuItems) {
             const menuContainer = document.getElementById('menu-container');
             menuContainer.innerHTML = '';
@@ -262,32 +217,24 @@
             });
         }
 
-        // 3. AXTARIŞ MƏNTİQİ
         document.getElementById('search-input').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
             const menuContainer = document.getElementById('menu-container');
             const searchResults = document.getElementById('search-results');
 
-            if (query.length === 0) {
-                resetSearch();
-                return;
-            }
+            if (query.length === 0) { resetSearch(); return; }
 
-            // Əgər axtarış bazası boşdursa, heç nə etmə
             if (searchData.length === 0) {
                 menuContainer.style.display = 'none';
                 searchResults.style.display = 'block';
-                searchResults.innerHTML = `<li class="no-results">Search index (search.json) is not ready yet.</li>`;
+                searchResults.innerHTML = `<li class="no-results">Search index is not ready yet.</li>`;
                 return;
             }
 
-            // Başlıq və məzmunu yoxlayırıq
             const results = searchData.filter(item => 
-                item.title.toLowerCase().includes(query) || 
-                item.content.toLowerCase().includes(query)
+                item.title.toLowerCase().includes(query) || item.content.toLowerCase().includes(query)
             );
 
-            // Menyunu gizlədirik, nəticələri göstəririk
             menuContainer.style.display = 'none';
             searchResults.style.display = 'block';
             searchResults.innerHTML = '';
@@ -313,50 +260,46 @@
             }
         });
 
-        // Axtarışı sıfırlayan funksiya
         function resetSearch() {
             document.getElementById('menu-container').style.display = 'block';
             document.getElementById('search-results').style.display = 'none';
             document.getElementById('search-results').innerHTML = '';
         }
 
-        // 4. Məzmunu (.md faylını) yükləyən funksiya
         async function loadContent(slug) {
             const contentArea = document.getElementById('content-area');
             contentArea.innerHTML = '<p style="color:var(--primary);">Loading document...</p>';
 
-            // Aktiv menyu linkini yeniləyirik
             document.querySelectorAll('.menu-list a').forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('data-slug') === slug) {
-                    link.classList.add('active');
-                }
+                if (link.getAttribute('data-slug') === slug) link.classList.add('active');
             });
 
             try {
+                // BURADA YOLU DƏQİQLƏŞDİRDİK: content/ qovluğuna girir
                 const response = await fetch(`./content/${slug}.md`);
                 
-                if (!response.ok) throw new Error('Fayl tapılmadı');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 
                 const markdownText = await response.text();
                 contentArea.innerHTML = marked.parse(markdownText);
 
             } catch (error) {
                 console.error('Məzmun yüklənmədi:', error);
+                // XƏTA MESAJINI DƏQİQLƏŞDİRDİK: Hansı linki axtardığını göstərir
                 contentArea.innerHTML = `
-                    <h1 style="color: #ef4444; font-size: 32px;">404 - Not Found</h1>
-                    <p style="color: var(--muted);">The document <b>${slug}.md</b> does not exist or could not be loaded from the <code>content/</code> folder.</p>
+                    <h1 style="color: #ef4444; font-size: 32px;">404 - Document Not Found</h1>
+                    <p style="color: var(--muted);">The system tried to load: <br><code>./content/${slug}.md</code></p>
+                    <p style="color: var(--muted);">Please make sure this file exists inside the <b>documentation/content/</b> folder.</p>
                 `;
             }
         }
 
-        // 3. URL dəyişəndə (məsələn #installation) məzmunu yenilə
         window.addEventListener('hashchange', () => {
             const slug = window.location.hash.replace('#', '');
             if (slug) loadContent(slug);
         });
 
-        // Hər şeyi başlat
         init();
     </script>
 </body>
