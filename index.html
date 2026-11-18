@@ -5,30 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title">RJ Nexus Documentation</title>
     <style>
-        :root { --bg: #0a0a0f; --surface: #14141c; --border: #262632; --text: #e5e7eb; --muted: #94a3b8; --primary: #a78bfa; --secondary: #f472b6; }
+        :root {
+            --bg: #0a0a0f;
+            --surface: #14141c;
+            --border: #262632;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --primary: #a78bfa;
+            --secondary: #f472b6;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 20px; background-image: radial-gradient(circle at top, rgba(167, 139, 250, 0.15), transparent 50%); }
-        .hero { max-width: 800px; }
-        h1 { font-size: 56px; font-weight: 800; margin-bottom: 24px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; }
-        p { font-size: 18px; line-height: 1.6; color: var(--muted); margin-bottom: 40px; }
-        .btn { display: inline-block; padding: 16px 32px; font-size: 16px; font-weight: 700; color: #fff; text-decoration: none; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 8px 25px -8px var(--primary); transition: transform 0.2s; }
-        .btn:hover { transform: translateY(-2px); }
-        .lang-switch { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
-        .lang-switch button { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at top, rgba(167, 139, 250, 0.15), transparent 50%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 48px;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .lang-switch { display: flex; gap: 10px; }
+        .lang-switch button {
+            background: var(--surface); color: var(--text); border: 1px solid var(--border);
+            padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s;
+            font-family: inherit;
+        }
         .lang-switch button:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Hero Section */
+        .hero {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            max-width: 800px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+        
+        /* CTA Button - Documentation qovluğuna yönləndirir */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 36px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 30px -10px var(--primary);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px -10px var(--primary); }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 0 48px 80px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            transition: 0.3s;
+        }
+        .card:hover { border-color: rgba(167, 139, 250, 0.4); transform: translateY(-4px); }
+        .card h3 { font-size: 20px; margin-bottom: 12px; color: var(--text); }
+        .card p { font-size: 14px; margin-bottom: 0; }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; flex-direction: column; gap: 20px; }
+            h1 { font-size: 40px; }
+            .features { padding: 0 20px 60px 20px; }
+        }
     </style>
 </head>
 <body>
-    <div class="lang-switch">
-        <button onclick="loadLanguage('en')">EN</button>
-        <button onclick="loadLanguage('az')">AZ</button>
-    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">RJ Nexus</div>
+        <div class="lang-switch">
+            <button onclick="loadLanguage('en')">EN</button>
+            <button onclick="loadLanguage('az')">AZ</button>
+        </div>
+    </header>
+
+    <!-- Hero -->
     <div class="hero">
-        <h1 data-i18n="hero_title">RJ Nexus Docs</h1>
-        <p data-i18n="hero_desc">Everything you need to build, customize, and scale with RJ Nexus CMS.</p>
-        <!-- DÜYMƏNİN LİNKİNƏ DİQQƏT EDİN: documentation/ qovluğuna yönləndirir -->
-        <a href="./documentation/index.html" class="btn" data-i18n="btn_start">Read Documentation</a>
+        <h1 data-i18n="hero_title">RJ Nexus Documentation</h1>
+        <p data-i18n="hero_desc">Everything you need to build, customize, and scale your next project with RJ Nexus CMS.</p>
+        <!-- DÜYMƏ BİRBAŞA documentation/ QOVLUĞUNA GEDİR -->
+        <a href="./documentation/" class="btn">
+            <span data-i18n="btn_start">Read Documentation</span>
+            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
     </div>
+
+    <!-- Xüsusiyyətlər -->
+    <div class="features">
+        <div class="card">
+            <h3 data-i18n="f1_title">Getting Started</h3>
+            <p data-i18n="f1_desc">Learn how to install and configure RJ Nexus on your server in minutes.</p>
+        </div>
+        <div class="card">
+            <h3 data-i18n="f2_title">Plugin Development</h3>
+            <p data-i18n="f2_desc">Discover how to create, manage, and distribute your own plugins.</p>
+        </div>
+        <div class="card">
+            <h3 data-i18n="f3_title">Theme Customization</h3>
+            <p data-i18n="f3_desc">Master the art of building custom themes with RJBuilder and Tailwind.</p>
+        </div>
+    </div>
+
+    <!-- Tərcümə Sistemi -->
     <script>
         async function loadLanguage(lang) {
             try {
@@ -38,6 +166,7 @@
                     const key = element.getAttribute('data-i18n');
                     if (translations[key]) element.textContent = translations[key];
                 });
+                document.documentElement.lang = lang;
             } catch (error) { console.error('Translation error:', error); }
         }
         loadLanguage('en');
