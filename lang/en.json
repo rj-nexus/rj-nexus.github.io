@@ -1,6 +1,12 @@
 {
     "page_title": "RJ Nexus Documentation",
-    "hero_title": "RJ Nexus Docs",
-    "hero_desc": "Everything you need to build, customize, and scale with RJ Nexus CMS.",
-    "btn_start": "Read Documentation"
+    "hero_title": "RJ Nexus Documentation",
+    "hero_desc": "Everything you need to build, customize, and scale your next project with RJ Nexus CMS.",
+    "btn_start": "Read Documentation",
+    "f1_title": "Getting Started",
+    "f1_desc": "Learn how to install and configure RJ Nexus on your server in minutes.",
+    "f2_title": "Plugin Development",
+    "f2_desc": "Discover how to create, manage, and distribute your own plugins.",
+    "f3_title": "Theme Customization",
+    "f3_desc": "Master the art of building custom themes with RJBuilder and Tailwind."
 }
