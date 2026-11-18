@@ -1,6 +1,12 @@
 {
     "page_title": "RJ Nexus Sənədləri",
     "hero_title": "RJ Nexus Sənədləri",
-    "hero_desc": "RJ Nexus CMS ilə qurmaq, fərdiləşdirmək və genişləndirmək üçün lazım olan hər şey.",
-    "btn_start": "Sənədləri Oxu"
+    "hero_desc": "RJ Nexus CMS ilə növbəti layihənizi qurmaq, fərdiləşdirmək və genişləndirmək üçün lazım olan hər şey.",
+    "btn_start": "Sənədləri Oxu",
+    "f1_title": "Başlanğıc",
+    "f1_desc": "RJ Nexus-u serverinizdə necə quraşdıracağınızı və konfiqurasiya edəcəyinizi dəqiqələr içində öyrənin.",
+    "f2_title": "Plaqin Hazırlanması",
+    "f2_desc": "Öz plaqinlərinizi necə yaradacağınızı, idarə edəcəyinizi və paylaşacağınızı kəşf edin.",
+    "f3_title": "Tema Fərdiləşdirmə",
+    "f3_desc": "RJBuilder və Tailwind ilə fərdi temalar qurmağın sirlərini mənimsəyin."
 }
