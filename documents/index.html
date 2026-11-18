@@ -1,1 +1,184 @@
-Hello!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RJ Nexus Documentation</title>
+    <!-- Markdown-ı HTML-ə çevirmək üçün kitabxana -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0f; --surface: #14141c; --border: #262632;
+            --text: #e5e7eb; --muted: #94a3b8;
+            --primary: #a78bfa; --secondary: #f472b6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg); color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            display: flex; min-height: 100vh;
+        }
+
+        /* Sol Menyu (Sidebar) */
+        .sidebar {
+            width: 280px; background: var(--surface); border-right: 1px solid var(--border);
+            padding: 30px 20px; position: fixed; height: 100vh; overflow-y: auto;
+        }
+        .home-link {
+            display: inline-flex; align-items: center; gap: 8px; color: var(--muted);
+            text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 24px;
+        }
+        .home-link:hover { color: var(--primary); }
+        .sidebar h2 {
+            font-size: 20px; font-weight: 800; margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .menu-list { list-style: none; }
+        .menu-list li { margin-bottom: 8px; }
+        .menu-list a {
+            color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+            display: block; padding: 10px 14px; border-radius: 8px; transition: 0.2s;
+        }
+        .menu-list a:hover, .menu-list a.active {
+            color: var(--text); background: rgba(255,255,255,0.05);
+        }
+        .menu-list a.active {
+            color: var(--primary); border-left: 3px solid var(--primary); background: rgba(167,139,250,0.1);
+        }
+
+        /* Əsas Məzmun */
+        .main-content {
+            margin-left: 280px; padding: 60px 80px; flex-grow: 1; max-width: 900px;
+        }
+        #content-area { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Markdown Dizaynı (Qaranlıq Tema) */
+        .markdown-body h1 { font-size: 38px; font-weight: 800; margin-bottom: 24px; color: #fff; }
+        .markdown-body h2 { font-size: 26px; font-weight: 700; margin: 32px 0 16px; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .markdown-body h3 { font-size: 20px; font-weight: 600; margin: 24px 0 12px; color: #fff; }
+        .markdown-body p { font-size: 16px; line-height: 1.7; color: var(--muted); margin-bottom: 16px; }
+        .markdown-body a { color: var(--primary); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body ul, .markdown-body ol { padding-left: 24px; margin-bottom: 16px; color: var(--muted); line-height: 1.7; }
+        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body code {
+            background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 6px;
+            font-family: monospace; color: var(--secondary); font-size: 14px;
+        }
+        .markdown-body pre {
+            background: var(--surface); padding: 20px; border-radius: 12px;
+            overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px;
+        }
+        .markdown-body pre code { background: transparent; padding: 0; color: var(--text); }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+            .main-content { margin-left: 0; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sol Menyu -->
+    <div class="sidebar">
+        <!-- Ana səhifəyə (documents/index.html) qayıtmaq üçün link -->
+        <a href="../index.html" class="home-link">&larr; Back to Home</a>
+        <h2>Documentation</h2>
+        <ul class="menu-list" id="menu-container">
+            <!-- Menyu JS ilə bura yüklənəcək -->
+            <li><span style="color:var(--muted); font-size:14px;">Loading menu...</span></li>
+        </ul>
+    </div>
+
+    <!-- Əsas Məzmun -->
+    <div class="main-content">
+        <div id="content-area" class="markdown-body">
+            <p>Loading content...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Məntiqi -->
+    <script>
+        // 1. Menyunu JSON-dan yükləyən funksiya
+        async function loadMenu() {
+            try {
+                const response = await fetch('./menu.json');
+                const menuItems = await response.json();
+                const menuContainer = document.getElementById('menu-container');
+                menuContainer.innerHTML = ''; // Təmizləyirik
+
+                menuItems.forEach(item => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = `#${item.slug}`;
+                    a.textContent = item.title;
+                    a.setAttribute('data-slug', item.slug);
+                    
+                    // Klikləyəndə səhifəni yükləyən hadisə
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.location.hash = item.slug;
+                    });
+
+                    li.appendChild(a);
+                    menuContainer.appendChild(li);
+                });
+
+                // İlk açılışda URL-də hash varsa onu, yoxdursa ilk itemi yüklə
+                const currentHash = window.location.hash.replace('#', '') || (menuItems.length > 0 ? menuItems[0].slug : 'getting-started');
+                loadContent(currentHash);
+
+            } catch (error) {
+                console.error('Menu yüklənmədi:', error);
+                document.getElementById('menu-container').innerHTML = '<li>Error loading menu</li>';
+            }
+        }
+
+        // 2. Markdown faylını yükləyib HTML-ə çevirən funksiya
+        async function loadContent(slug) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '<p>Loading...</p>';
+
+            // Aktiv menyu linkini yeniləyirik
+            document.querySelectorAll('.menu-list a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-slug') === slug) {
+                    link.classList.add('active');
+                }
+            });
+
+            try {
+                // content/ qovluğundan .md faylını çəkirik
+                const response = await fetch(`./content/${slug}.md`);
+                
+                if (!response.ok) throw new Error('Fayl tapılmadı');
+                
+                const markdownText = await response.text();
+                
+                // marked.js ilə Markdown -> HTML
+                const htmlContent = marked.parse(markdownText);
+                contentArea.innerHTML = htmlContent;
+
+            } catch (error) {
+                console.error('Məzmun yüklənmədi:', error);
+                contentArea.innerHTML = `
+                    <h1 style="color: #ef4444;">404 - Not Found</h1>
+                    <p>The document you are looking for does not exist or could not be loaded.</p>
+                `;
+            }
+        }
+
+        // 3. URL dəyişəndə (məsələn #installation) məzmunu yenilə
+        window.addEventListener('hashchange', () => {
+            const slug = window.location.hash.replace('#', '');
+            if (slug) loadContent(slug);
+        });
+
+        // Hər şeyi başlat
+        loadMenu();
+    </script>
+</body>
+</html>
