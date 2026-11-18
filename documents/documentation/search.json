@@ -3,5 +3,10 @@
     "slug": "getting-started",
     "title": "Getting Started with RJ Nexus",
     "content": "Getting Started with RJ Nexus Welcome to RJ Nexus! This guide will help you set up your new CMS. Requirements Before you begin, make sure you have: - PHP >= 8.2 - MySQL Database - Composer installed Quick Installation Run the following command in your terminal: bash composer create-project rj-nexus/rj-nexus my-site"
+  },
+  {
+    "slug": "installation",
+    "title": "Installation Guide",
+    "content": "Installation Guide This guide will walk you through the process of installing RJ Nexus CMS on your server. RJ Nexus is designed to be lightweight and can be installed on almost any shared hosting or VPS without requiring SSH access or complex terminal commands. Requirements Before you begin, ensure your server meets the following minimum requirements: - PHP >= 8.2 - Database: MySQL 5.7+ or MariaDB 10.3+ - Web Server: Apache or Nginx - PHP Extensions: , , , , , , , , , , > Note: RJ Nexus no longer requires the or functions to be enabled. This makes it fully compatible with highly restrictive shared hosting environments. You do not need to ask your hosting provider to change PHP settings. Step 1: Download the ZIP 1. Go to the RJ Nexus GitHub Releases page. 2. Download the latest file for the stable release. Step 2: Upload to Your Server 1. Log in to your hosting control panel (cPanel, Plesk, or your VPS file manager). 2. Navigate to your website's root directory (usually or ). 3. Upload the file you downloaded. 4. Extract the ZIP file directly in the folder. Make sure the extracted files are in the root folder, not inside another subfolder. Step 3: Run the Installer 1. Open your web browser and navigate to your domain:"
   }
 ]
