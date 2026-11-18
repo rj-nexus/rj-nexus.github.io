@@ -4,34 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title">RJ Nexus Documentation</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+    
     <style>
         :root {
-            --bg: #0a0a0f;
-            --surface: #14141c;
-            --border: #262632;
+            --bg: #05050a;
             --text: #e5e7eb;
             --muted: #94a3b8;
             --primary: #a78bfa;
             --secondary: #f472b6;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
-            background-image: radial-gradient(circle at top, rgba(167, 139, 250, 0.15), transparent 50%);
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Header */
+        /* === ARXA FON İŞIQLARI (GLASS EFFEKTİ ÜÇÜN) === */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s infinite alternate;
+        }
+        .orb-1 { width: 400px; height: 400px; background: rgba(167, 139, 250, 0.4); top: -100px; left: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: rgba(244, 114, 182, 0.3); bottom: -50px; right: -50px; animation-delay: -5s; }
+        .orb-3 { width: 250px; height: 250px; background: rgba(59, 130, 246, 0.3); top: 40%; left: 40%; animation-duration: 15s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* === HEADER === */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 48px;
-            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            margin: 20px 40px;
+            
+            /* Glassmorphism */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
         .logo {
             font-size: 24px;
@@ -42,13 +72,13 @@
         }
         .lang-switch { display: flex; gap: 10px; }
         .lang-switch button {
-            background: var(--surface); color: var(--text); border: 1px solid var(--border);
-            padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s;
-            font-family: inherit;
+            background: rgba(255, 255, 255, 0.05); color: var(--text); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s;
+            font-family: inherit; backdrop-filter: blur(10px);
         }
-        .lang-switch button:hover { border-color: var(--primary); color: var(--primary); }
+        .lang-switch button:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); color: var(--primary); }
 
-        /* Hero Section */
+        /* === HERO SECTION === */
         .hero {
             flex-grow: 1;
             display: flex;
@@ -59,66 +89,104 @@
             padding: 80px 20px;
         }
         h1 {
-            font-size: 56px;
+            font-size: 64px;
             font-weight: 800;
             margin-bottom: 24px;
             letter-spacing: -0.03em;
-            max-width: 800px;
+            max-width: 900px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(167, 139, 250, 0.3);
         }
         p {
-            font-size: 18px;
+            font-size: 20px;
             line-height: 1.6;
             color: var(--muted);
-            margin-bottom: 40px;
-            max-width: 600px;
+            margin-bottom: 48px;
+            max-width: 650px;
         }
         
-        /* CTA Button - Documentation qovluğuna yönləndirir */
+        /* CTA Button - Glass & Glowing */
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 18px 36px;
+            gap: 12px;
+            padding: 18px 40px;
             font-size: 18px;
             font-weight: 700;
             color: #fff;
             text-decoration: none;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 10px 30px -10px var(--primary);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.8), rgba(244, 114, 182, 0.8));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px -10px var(--primary);
+            transition: all 0.3s ease;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px -10px var(--primary); }
+        .btn:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 15px 50px -10px var(--primary);
+            background: linear-gradient(135deg, rgba(167, 139, 250, 1), rgba(244, 114, 182, 1));
+        }
 
-        /* Features Grid */
+        /* === FEATURES (GLASS CARDS) === */
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 24px;
-            padding: 0 48px 80px 48px;
+            padding: 0 40px 80px 40px;
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
         }
         .card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px;
-            transition: 0.3s;
+            /* Glassmorphism */
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        .card:hover { border-color: rgba(167, 139, 250, 0.4); transform: translateY(-4px); }
-        .card h3 { font-size: 20px; margin-bottom: 12px; color: var(--text); }
-        .card p { font-size: 14px; margin-bottom: 0; }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+        .card:hover { 
+            border-color: rgba(167, 139, 250, 0.3); 
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5), 0 0 40px -10px rgba(167, 139, 250, 0.1);
+        }
+        .card-icon {
+            width: 48px; height: 48px; border-radius: 14px;
+            background: rgba(167, 139, 250, 0.1); color: var(--primary);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+            border: 1px solid rgba(167, 139, 250, 0.2);
+        }
+        .card h3 { font-size: 22px; margin-bottom: 12px; color: #fff; font-weight: 700; }
+        .card p { font-size: 15px; margin-bottom: 0; color: var(--muted); }
 
         @media (max-width: 768px) {
-            header { padding: 20px; flex-direction: column; gap: 20px; }
-            h1 { font-size: 40px; }
+            header { padding: 15px 20px; margin: 15px; flex-direction: column; gap: 15px; }
+            h1 { font-size: 42px; }
             .features { padding: 0 20px 60px 20px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Arxa Fon İşıqları -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
 
     <!-- Header -->
     <header>
@@ -134,23 +202,32 @@
         <h1 data-i18n="hero_title">RJ Nexus Documentation</h1>
         <p data-i18n="hero_desc">Everything you need to build, customize, and scale your next project with RJ Nexus CMS.</p>
         <!-- DÜYMƏ BİRBAŞA documentation/ QOVLUĞUNA GEDİR -->
-        <a href="./documents/" class="btn">
+        <a href="./documentation/" class="btn">
             <span data-i18n="btn_start">Read Documentation</span>
             <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
     </div>
 
-    <!-- Xüsusiyyətlər -->
+    <!-- Xüsusiyyətlər (Glass Kartlar) -->
     <div class="features">
         <div class="card">
+            <div class="card-icon">
+                <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
             <h3 data-i18n="f1_title">Getting Started</h3>
             <p data-i18n="f1_desc">Learn how to install and configure RJ Nexus on your server in minutes.</p>
         </div>
         <div class="card">
+            <div class="card-icon">
+                <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
             <h3 data-i18n="f2_title">Plugin Development</h3>
             <p data-i18n="f2_desc">Discover how to create, manage, and distribute your own plugins.</p>
         </div>
         <div class="card">
+            <div class="card-icon">
+                <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+            </div>
             <h3 data-i18n="f3_title">Theme Customization</h3>
             <p data-i18n="f3_desc">Master the art of building custom themes with RJBuilder and Tailwind.</p>
         </div>
