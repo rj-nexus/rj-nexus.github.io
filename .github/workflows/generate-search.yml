@@ -24,15 +24,21 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Debug Folder Structure
+        run: |
+          echo "Cari qovluq:"
+          pwd
+          echo "Fayllar siyahısı:"
+          ls -R
+
       - name: Run Search Generator Script
-        # DÜZƏLİŞ 1: Skriptin yolunu qeyd etdik
         run: node documents/generate-search.js
 
       - name: Commit and Push changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          # DÜZƏLİŞ 2: Faylın tam yolunu qeyd etdik
-          git add documents/documentation/search.json
+          # BÜTÜN dəyişiklikləri əlavə edirik ki, yol xətası olmasın
+          git add -A
           git commit -m "docs: auto-update search.json" || echo "No changes to commit"
           git push
