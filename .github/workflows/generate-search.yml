@@ -1,0 +1,34 @@
+name: Auto Generate Search JSON
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'documentation/content/**/*.md' # Yalnız md faylları dəyişəndə işə düşsün
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Repoya yazma icazəsi
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run Search Generator Script
+        run: node generate-search.js
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add documentation/search.json
+          git commit -m "docs: auto-update search.json" || echo "No changes to commit"
+          git push
