@@ -3,29 +3,36 @@ const path = require('path');
 
 // Qovluq yolları
 const contentDir = path.join(__dirname, 'documentation', 'content');
-const outputFile = path.join(__dirname, 'documentation', 'search.json');
+const outputDir = path.join(__dirname, 'documentation');
+const outputFile = path.join(outputDir, 'search.json');
 
-// Markdown-dan başlığı çıxaran funksiya
+// Qovluqlar yoxdursa, yaradırıq (Xətanın qarşısını alır)
+if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+}
+if (!fs.existsSync(contentDir)) {
+    fs.mkdirSync(contentDir, { recursive: true });
+    console.log('⚠️ content qovluğu yaradıldı. İçinə .md faylları əlavə edin.');
+}
+
 function extractTitle(markdown) {
     const match = markdown.match(/^#\s+(.+)$/m);
     return match ? match[1].trim() : 'Untitled Document';
 }
 
-// Markdown işarələrini təmizləyib sadəcə yazını saxlayan funksiya
 function stripMarkdown(markdown) {
     return markdown
-        .replace(/^#{1,6}\s+/gm, '') // Başlıqları sil
-        .replace(/(\*\*|__)(.*?)\1/g, '$2') // Qalın hərfləri təmizlə
-        .replace(/(\*|_)(.*?)\1/g, '$2') // Kursivləri təmizlə
-        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Linkləri təmizlə (sadəcə mətn qalsın)
-        .replace(/`{1,3}[^`]*`{1,3}/g, '') // Kod bloklarını sil (axtarışa daxil olmasın)
-        .replace(/```[\s\S]*?```/g, '') // Çoxsətirli kod bloklarını sil
-        .replace(/!\[[^\]]*\]\([^\)]+\)/g, '') // Şəkilləri sil
-        .replace(/\s+/g, ' ') // Artıq boşluqları tək boşluğa endir
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        .replace(/(\*|_)(.*?)\1/g, '$2')
+        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+        .replace(/`{1,3}[^`]*`{1,3}/g, '')
+        .replace(/```[\s\S]*?```/g, '')
+        .replace(/!\[[^\]]*\]\([^\)]+\)/g, '')
+        .replace(/\s+/g, ' ')
         .trim();
 }
 
-// content/ qovluğu varsa, skan edirik
 if (fs.existsSync(contentDir)) {
     const files = fs.readdirSync(contentDir).filter(f => f.endsWith('.md'));
     
@@ -41,9 +48,8 @@ if (fs.existsSync(contentDir)) {
         };
     });
 
-    // Nəticəni search.json faylına yazırıq
     fs.writeFileSync(outputFile, JSON.stringify(searchData, null, 2));
     console.log(`✅ Uğurlu! ${files.length} sənəd oxundu və search.json yeniləndi.`);
 } else {
-    console.error('❌ Xəta: documentation/content qovluğu tapılmadı!');
+    console.log('❌ Xəta: content qovluğu tapılmadı!');
 }
