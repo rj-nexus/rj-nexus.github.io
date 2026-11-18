@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RJ Nexus Documentation</title>
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
-    
-    <!-- Markdown-ı HTML-ə çevirmək üçün kitabxana -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
@@ -24,16 +21,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg); color: var(--text);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
-            position: relative;
+            min-height: 100vh; display: flex; overflow-x: hidden; position: relative;
         }
 
-        /* === ARXA FON İŞIQLARI (GLASS EFFEKTİ ÜÇÜN) === */
         .bg-orb {
             position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; opacity: 0.5;
             animation: float 10s infinite alternate; pointer-events: none;
@@ -43,7 +35,6 @@
 
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
 
-        /* === SOL MENYU (SIDEBAR) === */
         .sidebar {
             width: 320px; background: var(--surface); backdrop-filter: blur(20px);
             border-right: 1px solid var(--border); padding: 32px 24px;
@@ -63,7 +54,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* === AXTARIŞ QUTUSU === */
         .search-container { margin-bottom: 24px; position: relative; }
         .search-input {
             width: 100%; padding: 12px 16px 12px 40px; border-radius: 12px;
@@ -86,7 +76,6 @@
             border-color: rgba(167, 139, 250, 0.2); border-left: 3px solid var(--primary); font-weight: 600;
         }
 
-        /* Axtarış Nəticələri */
         #search-results { display: none; list-style: none; }
         #search-results a { 
             display: block; padding: 12px 16px; border-radius: 12px; color: var(--text); 
@@ -96,7 +85,6 @@
         #search-results a:hover { background: rgba(167, 139, 250, 0.1); border-color: var(--primary); }
         .no-results { color: var(--muted); font-size: 14px; padding: 10px; font-style: italic; }
 
-        /* === ƏSAS MƏZMUN === */
         .main-content {
             margin-left: 320px; padding: 60px 80px; flex-grow: 1; max-width: 1000px;
             position: relative; z-index: 1;
@@ -111,7 +99,6 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Markdown Dizaynı */
         .markdown-body h1 { font-size: 40px; font-weight: 800; margin-bottom: 24px; color: #fff; letter-spacing: -0.02em; }
         .markdown-body h2 { font-size: 28px; font-weight: 700; margin: 40px 0 20px; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
         .markdown-body h3 { font-size: 22px; font-weight: 600; margin: 32px 0 16px; color: #fff; }
@@ -124,7 +111,6 @@
         .markdown-body pre { background: rgba(0,0,0,0.4); padding: 24px; border-radius: 16px; overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px; }
         .markdown-body pre code { background: transparent; padding: 0; color: #e5e7eb; font-size: 14px; }
         
-        /* Mobil görünüş */
         @media (max-width: 900px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); padding: 24px; }
@@ -135,13 +121,10 @@
 </head>
 <body>
 
-    <!-- Arxa Fon İşıqları -->
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
 
-    <!-- Sol Menyu -->
     <div class="sidebar">
-        <!-- KÖKDƏKİ index.html-Ə QAYITMAQ ÜÇÜN YOL: ../ -->
         <a href="../index.html" class="home-link">
             <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
             Back to Home
@@ -160,21 +143,19 @@
         <ul id="search-results"></ul>
     </div>
 
-    <!-- Əsas Məzmun -->
     <div class="main-content">
         <div class="content-card markdown-body" id="content-area">
             <p>Loading content...</p>
         </div>
     </div>
 
-    <!-- JavaScript Məntiqi -->
     <script>
         let searchData = []; 
 
         async function init() {
             try {
-                // 1. Menyunu documentation/ qovluğundan yükləyirik
-                const menuResponse = await fetch('./documentation/menu.json');
+                // DÜZƏLİŞ: menu.json birbaşa documents/ qovluğundadır
+                const menuResponse = await fetch('./menu.json');
                 if (menuResponse.ok) {
                     const menuItems = await menuResponse.json();
                     renderMenu(menuItems);
@@ -185,7 +166,7 @@
                     document.getElementById('menu-container').innerHTML = '<li style="color:#ef4444;">Error loading menu.json</li>';
                 }
 
-                // 2. Axtarış bazasını documentation/ qovluğundan yükləyirik
+                // search.json isə documentation/ alt qovluğundadır
                 const searchResponse = await fetch('./documentation/search.json');
                 if (searchResponse.ok) {
                     searchData = await searchResponse.json();
@@ -277,7 +258,7 @@
             });
 
             try {
-                // BURADA DÜZƏLİŞ: documentation/content/ qovluğuna girir
+                // DÜZƏLİŞ: .md faylları documentation/content/ alt qovluğundadır
                 const response = await fetch(`./documentation/content/${slug}.md`);
                 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
