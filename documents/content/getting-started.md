@@ -1,1 +1,17 @@
+# Getting Started with RJ Nexus
 
+Welcome to RJ Nexus! This guide will help you set up your new CMS.
+
+## Requirements
+
+Before you begin, make sure you have:
+- PHP >= 8.2
+- MySQL Database
+- Composer installed
+
+## Quick Installation
+
+Run the following command in your terminal:
+
+```bash
+composer create-project rj-nexus/rj-nexus my-site
