@@ -4,98 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RJ Nexus Documentation</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+    
     <!-- Markdown-ı HTML-ə çevirmək üçün kitabxana -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <style>
         :root {
-            --bg: #0a0a0f; --surface: #14141c; --border: #262632;
-            --text: #e5e7eb; --muted: #94a3b8;
-            --primary: #a78bfa; --secondary: #f472b6;
+            --bg: #05050a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --primary: #a78bfa;
+            --secondary: #f472b6;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            background-color: var(--bg); color: var(--text);
-            font-family: 'Inter', system-ui, sans-serif;
-            display: flex; min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Sol Menyu (Sidebar) */
-        .sidebar {
-            width: 280px; background: var(--surface); border-right: 1px solid var(--border);
-            padding: 30px 20px; position: fixed; height: 100vh; overflow-y: auto;
+        /* === ARXA FON İŞIQLARI (GLASS EFFEKTİ ÜÇÜN) === */
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.5;
+            animation: float 10s infinite alternate;
+            pointer-events: none;
         }
+        .orb-1 { width: 400px; height: 400px; background: rgba(167, 139, 250, 0.3); top: -100px; left: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: rgba(244, 114, 182, 0.2); bottom: -50px; right: -50px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* === SOL MENYU (SIDEBAR) === */
+        .sidebar {
+            width: 300px;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            padding: 32px 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        
         .home-link {
             display: inline-flex; align-items: center; gap: 8px; color: var(--muted);
-            text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 24px;
+            text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 32px;
+            transition: color 0.2s;
         }
         .home-link:hover { color: var(--primary); }
+        
         .sidebar h2 {
-            font-size: 20px; font-weight: 800; margin-bottom: 24px;
+            font-size: 22px; font-weight: 800; margin-bottom: 24px;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+        
         .menu-list { list-style: none; }
         .menu-list li { margin-bottom: 8px; }
         .menu-list a {
-            color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
-            display: block; padding: 10px 14px; border-radius: 8px; transition: 0.2s;
+            color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500;
+            display: block; padding: 12px 16px; border-radius: 12px; transition: all 0.2s ease;
+            border: 1px solid transparent;
         }
-        .menu-list a:hover, .menu-list a.active {
-            color: var(--text); background: rgba(255,255,255,0.05);
+        .menu-list a:hover {
+            color: var(--text); background: rgba(255,255,255,0.03);
         }
         .menu-list a.active {
-            color: var(--primary); border-left: 3px solid var(--primary); background: rgba(167,139,250,0.1);
+            color: var(--primary); 
+            background: rgba(167, 139, 250, 0.1); 
+            border-color: rgba(167, 139, 250, 0.2);
+            border-left: 3px solid var(--primary);
+            font-weight: 600;
         }
 
-        /* Əsas Məzmun */
+        /* === ƏSAS MƏZMUN === */
         .main-content {
-            margin-left: 280px; padding: 60px 80px; flex-grow: 1; max-width: 900px;
+            margin-left: 300px;
+            padding: 60px 80px;
+            flex-grow: 1;
+            max-width: 1000px;
+            position: relative;
+            z-index: 1;
         }
-        #content-area { animation: fadeIn 0.4s ease; }
+        
+        /* Şüşəvari Məzmun Qutusu */
+        .content-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 30px 60px -30px rgba(0,0,0,0.8);
+            min-height: 80vh;
+            animation: fadeIn 0.4s ease;
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Markdown Dizaynı (Qaranlıq Tema) */
-        .markdown-body h1 { font-size: 38px; font-weight: 800; margin-bottom: 24px; color: #fff; }
-        .markdown-body h2 { font-size: 26px; font-weight: 700; margin: 32px 0 16px; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-        .markdown-body h3 { font-size: 20px; font-weight: 600; margin: 24px 0 12px; color: #fff; }
-        .markdown-body p { font-size: 16px; line-height: 1.7; color: var(--muted); margin-bottom: 16px; }
-        .markdown-body a { color: var(--primary); text-decoration: none; }
+        /* Markdown Dizaynı */
+        .markdown-body h1 { font-size: 40px; font-weight: 800; margin-bottom: 24px; color: #fff; letter-spacing: -0.02em; }
+        .markdown-body h2 { font-size: 28px; font-weight: 700; margin: 40px 0 20px; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .markdown-body h3 { font-size: 22px; font-weight: 600; margin: 32px 0 16px; color: #fff; }
+        .markdown-body p { font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; }
+        .markdown-body a { color: var(--primary); text-decoration: none; font-weight: 500; }
         .markdown-body a:hover { text-decoration: underline; }
-        .markdown-body ul, .markdown-body ol { padding-left: 24px; margin-bottom: 16px; color: var(--muted); line-height: 1.7; }
-        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body ul, .markdown-body ol { padding-left: 24px; margin-bottom: 20px; color: var(--muted); line-height: 1.8; }
+        .markdown-body li { margin-bottom: 10px; }
+        
         .markdown-body code {
-            background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 6px;
-            font-family: monospace; color: var(--secondary); font-size: 14px;
+            background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px;
+            font-family: 'Fira Code', monospace; color: var(--secondary); font-size: 14px;
         }
         .markdown-body pre {
-            background: var(--surface); padding: 20px; border-radius: 12px;
+            background: rgba(0,0,0,0.4); padding: 24px; border-radius: 16px;
             overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px;
         }
-        .markdown-body pre code { background: transparent; padding: 0; color: var(--text); }
-
-        @media (max-width: 768px) {
+        .markdown-body pre code { background: transparent; padding: 0; color: #e5e7eb; font-size: 14px; }
+        
+        /* Mobil görünüş */
+        @media (max-width: 900px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
-            .main-content { margin-left: 0; padding: 40px 20px; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); padding: 24px; }
+            .main-content { margin-left: 0; padding: 30px 20px; }
+            .content-card { padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Arxa Fon İşıqları -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
     <!-- Sol Menyu -->
     <div class="sidebar">
-        <!-- Ana səhifəyə (documents/index.html) qayıtmaq üçün link -->
-        <a href="../index.html" class="home-link">&larr; Back to Home</a>
+        <a href="../index.html" class="home-link">
+            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to Home
+        </a>
         <h2>Documentation</h2>
         <ul class="menu-list" id="menu-container">
-            <!-- Menyu JS ilə bura yüklənəcək -->
             <li><span style="color:var(--muted); font-size:14px;">Loading menu...</span></li>
         </ul>
     </div>
 
     <!-- Əsas Məzmun -->
     <div class="main-content">
-        <div id="content-area" class="markdown-body">
+        <div class="content-card markdown-body" id="content-area">
             <p>Loading content...</p>
         </div>
     </div>
@@ -140,7 +215,7 @@
         // 2. Markdown faylını yükləyib HTML-ə çevirən funksiya
         async function loadContent(slug) {
             const contentArea = document.getElementById('content-area');
-            contentArea.innerHTML = '<p>Loading...</p>';
+            contentArea.innerHTML = '<p style="color:var(--primary);">Loading document...</p>';
 
             // Aktiv menyu linkini yeniləyirik
             document.querySelectorAll('.menu-list a').forEach(link => {
@@ -160,13 +235,15 @@
                 
                 // marked.js ilə Markdown -> HTML
                 const htmlContent = marked.parse(markdownText);
+                
+                // Yeni məzmunu yerləşdiririk
                 contentArea.innerHTML = htmlContent;
 
             } catch (error) {
                 console.error('Məzmun yüklənmədi:', error);
                 contentArea.innerHTML = `
-                    <h1 style="color: #ef4444;">404 - Not Found</h1>
-                    <p>The document you are looking for does not exist or could not be loaded.</p>
+                    <h1 style="color: #ef4444; font-size: 32px;">404 - Not Found</h1>
+                    <p style="color: var(--muted);">The document <b>${slug}.md</b> does not exist or could not be loaded from the <code>content/</code> folder.</p>
                 `;
             }
         }
