@@ -7,7 +7,6 @@
     
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
     
-    <!-- Markdown və Fuzzy Search (Fuse.js) Kitabxanaları -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     
@@ -86,6 +85,9 @@
             border: 1px solid var(--border); font-size: 14px; transition: 0.2s; 
         }
         #search-results a:hover { background: rgba(167, 139, 250, 0.1); border-color: var(--primary); }
+        #search-results strong { display: block; color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        #search-results span { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
+        #search-results mark { background: rgba(167,139,250,0.3); color: #fff; padding: 0 2px; border-radius: 3px; }
         .no-results { color: var(--muted); font-size: 14px; padding: 10px; font-style: italic; }
 
         .main-content {
@@ -136,7 +138,7 @@
 
         <div class="search-container">
             <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" id="search-input" class="search-input" placeholder="Search docs (typo tolerant)...">
+            <input type="text" id="search-input" class="search-input" placeholder="Search docs (typo tolerant)..." autocomplete="off">
         </div>
         
         <ul class="menu-list" id="menu-container">
@@ -154,7 +156,32 @@
 
     <script>
         let searchData = []; 
-        let fuse = null; // Fuzzy axtarış obyekti
+        let fuse = null;
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function highlightText(text, query) {
+            if (!text) return '';
+            let escaped = escapeHtml(text);
+            if (!query) return escaped;
+            
+            const tokens = query.toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+            if (tokens.length === 0) return escaped;
+
+            tokens.forEach(tok => {
+                const re = new RegExp('(' + tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                escaped = escaped.replace(re, '<mark>$1</mark>');
+            });
+            return escaped;
+        }
 
         async function init() {
             try {
@@ -173,14 +200,26 @@
                 if (searchResponse.ok) {
                     searchData = await searchResponse.json();
                     
-                    // Fuse.js-i qururuq
-                    if (searchData.length > 0) {
+                    if (searchData.length > 0 && typeof Fuse !== 'undefined') {
+                        var searchKeys = [
+                            { name: 'title', weight: 3 },
+                            { name: 'content', weight: 1 }
+                        ];
+                        
+                        if (searchData[0] && 'headings' in searchData[0]) {
+                            searchKeys.splice(1, 0, { name: 'headings', weight: 2 });
+                        }
+
                         fuse = new Fuse(searchData, {
-                            keys: ['title', 'content'], // Həm başlıqda, həm məzmundadır
-                            threshold: 0.4,              // Səhv hərflərə icazə (0.0 = dəqiq, 1.0 = hər şey)
-                            distance: 100,
+                            keys: searchKeys,
+                            threshold: 0.6,
+                            distance: 1000,
+                            ignoreLocation: true,
+                            includeScore: true,
                             includeMatches: true,
-                            minMatchCharLength: 2
+                            minMatchCharLength: 2,
+                            shouldSort: true,
+                            findAllMatches: true
                         });
                     }
                 }
@@ -212,7 +251,6 @@
             });
         }
 
-        // FUZZY AXTARIŞ MƏNTİQİ
         document.getElementById('search-input').addEventListener('input', function(e) {
             const query = e.target.value.trim();
             const menuContainer = document.getElementById('menu-container');
@@ -223,12 +261,11 @@
             if (!fuse) {
                 menuContainer.style.display = 'none';
                 searchResults.style.display = 'block';
-                searchResults.innerHTML = `<li class="no-results">Search index (search.json) is not ready yet. Did the GitHub Action run?</li>`;
+                searchResults.innerHTML = `<li class="no-results">Search index is not ready.</li>`;
                 return;
             }
 
-            // Fuse.js ilə axtarış
-            const results = fuse.search(query);
+            const results = fuse.search(query).slice(0, 8);
 
             menuContainer.style.display = 'none';
             searchResults.style.display = 'block';
@@ -236,11 +273,16 @@
 
             if (results.length > 0) {
                 results.forEach(res => {
-                    const item = res.item; // Fuse.js nəticəsi
+                    const item = res.item;
                     const li = document.createElement('li');
                     const a = document.createElement('a');
                     a.href = `#${item.slug}`;
-                    a.innerHTML = `<strong style="color:#fff">${item.title}</strong><br><span style="font-size:12px; color:var(--muted)">Match found</span>`;
+                    
+                    const titleHtml = highlightText(item.title, query);
+                    const snippetText = item.excerpt || (item.content || '').substring(0, 120) + '...';
+                    const snippetHtml = highlightText(snippetText, query);
+
+                    a.innerHTML = `<strong>${titleHtml}</strong><span>${snippetHtml}</span>`;
                     
                     a.addEventListener('click', (ev) => {
                         ev.preventDefault();
