@@ -1,1 +1,125 @@
-Hello world!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RJ Nexus Documentation</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #14141c;
+            --border: #262632;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --primary: #a78bfa;
+            --secondary: #f472b6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sol Menyu (Sidebar) */
+        .sidebar {
+            width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 10px; }
+        .sidebar a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .sidebar a:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+        }
+        .sidebar a.active {
+            color: var(--primary);
+            background: rgba(167, 139, 250, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Əsas Məzmun */
+        .main-content {
+            margin-left: 280px;
+            padding: 60px 80px;
+            flex-grow: 1;
+            max-width: 900px;
+        }
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+        .card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>RJ Nexus Docs</h2>
+        <ul>
+            <li><a href="#" class="active">Ana Səhifə</a></li>
+            <li><a href="#">Başlanğıc</a></li>
+            <li><a href="#">Quraşdırma</a></li>
+            <li><a href="#">Plaqinlər (Plugins)</a></li>
+            <li><a href="#">Temalar (Themes)</a></li>
+            <li><a href="#">API İstinadı</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>RJ Nexus Sənədləri</h1>
+        <p>RJ Nexus sənədləşmə saytına xoş gəlmisiniz. Burada sistemin quraşdırılması, plaqinlərin və temaların yaradılması ilə bağlı bütün texniki məlumatları tapa bilərsiniz.</p>
+        <p>Bu sənədlər açıq mənbəlidir (open-source) və GitHub vasitəsilə daim yenilənir.</p>
+
+        <div class="card">
+            <h3>Sürətli Başlanğıc</h3>
+            <p style="margin-bottom: 0;">Sisteminizi qurmaq üçün sol tərəfdəki "Quraşdırma" bölməsinə keçid edin və ya ilk plaqininizi yazmaq üçün "Plaqinlər" bölməsini seçin.</p>
+        </div>
+    </div>
+
+</body>
+</html>
