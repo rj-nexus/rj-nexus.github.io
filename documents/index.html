@@ -6,7 +6,10 @@
     <title>RJ Nexus Documentation</title>
     
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+    
+    <!-- Markdown və Fuzzy Search (Fuse.js) Kitabxanaları -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     
     <style>
         :root {
@@ -133,7 +136,7 @@
 
         <div class="search-container">
             <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" id="search-input" class="search-input" placeholder="Search docs...">
+            <input type="text" id="search-input" class="search-input" placeholder="Search docs (typo tolerant)...">
         </div>
         
         <ul class="menu-list" id="menu-container">
@@ -151,10 +154,10 @@
 
     <script>
         let searchData = []; 
+        let fuse = null; // Fuzzy axtarış obyekti
 
         async function init() {
             try {
-                // DÜZƏLİŞ: menu.json birbaşa documents/ qovluğundadır
                 const menuResponse = await fetch('./menu.json');
                 if (menuResponse.ok) {
                     const menuItems = await menuResponse.json();
@@ -166,10 +169,20 @@
                     document.getElementById('menu-container').innerHTML = '<li style="color:#ef4444;">Error loading menu.json</li>';
                 }
 
-                // search.json isə documentation/ alt qovluğundadır
                 const searchResponse = await fetch('./documentation/search.json');
                 if (searchResponse.ok) {
                     searchData = await searchResponse.json();
+                    
+                    // Fuse.js-i qururuq
+                    if (searchData.length > 0) {
+                        fuse = new Fuse(searchData, {
+                            keys: ['title', 'content'], // Həm başlıqda, həm məzmundadır
+                            threshold: 0.4,              // Səhv hərflərə icazə (0.0 = dəqiq, 1.0 = hər şey)
+                            distance: 100,
+                            includeMatches: true,
+                            minMatchCharLength: 2
+                        });
+                    }
                 }
             } catch (error) {
                 console.error('Init error:', error);
@@ -199,23 +212,23 @@
             });
         }
 
+        // FUZZY AXTARIŞ MƏNTİQİ
         document.getElementById('search-input').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase().trim();
+            const query = e.target.value.trim();
             const menuContainer = document.getElementById('menu-container');
             const searchResults = document.getElementById('search-results');
 
             if (query.length === 0) { resetSearch(); return; }
 
-            if (searchData.length === 0) {
+            if (!fuse) {
                 menuContainer.style.display = 'none';
                 searchResults.style.display = 'block';
-                searchResults.innerHTML = `<li class="no-results">Search index is not ready yet.</li>`;
+                searchResults.innerHTML = `<li class="no-results">Search index (search.json) is not ready yet. Did the GitHub Action run?</li>`;
                 return;
             }
 
-            const results = searchData.filter(item => 
-                item.title.toLowerCase().includes(query) || item.content.toLowerCase().includes(query)
-            );
+            // Fuse.js ilə axtarış
+            const results = fuse.search(query);
 
             menuContainer.style.display = 'none';
             searchResults.style.display = 'block';
@@ -223,14 +236,15 @@
 
             if (results.length > 0) {
                 results.forEach(res => {
+                    const item = res.item; // Fuse.js nəticəsi
                     const li = document.createElement('li');
                     const a = document.createElement('a');
-                    a.href = `#${res.slug}`;
-                    a.innerHTML = `<strong style="color:#fff">${res.title}</strong><br><span style="font-size:12px; color:var(--muted)">Match found</span>`;
+                    a.href = `#${item.slug}`;
+                    a.innerHTML = `<strong style="color:#fff">${item.title}</strong><br><span style="font-size:12px; color:var(--muted)">Match found</span>`;
                     
                     a.addEventListener('click', (ev) => {
                         ev.preventDefault();
-                        window.location.hash = res.slug;
+                        window.location.hash = item.slug;
                         document.getElementById('search-input').value = '';
                         resetSearch();
                     });
@@ -258,9 +272,7 @@
             });
 
             try {
-                // DÜZƏLİŞ: .md faylları documentation/content/ alt qovluğundadır
                 const response = await fetch(`./documentation/content/${slug}.md`);
-                
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 
                 const markdownText = await response.text();
@@ -271,7 +283,6 @@
                 contentArea.innerHTML = `
                     <h1 style="color: #ef4444; font-size: 32px;">404 - Document Not Found</h1>
                     <p style="color: var(--muted);">The system tried to load: <br><code>./documentation/content/${slug}.md</code></p>
-                    <p style="color: var(--muted);">Please make sure this file exists inside the <b>documents/documentation/content/</b> folder.</p>
                 `;
             }
         }
