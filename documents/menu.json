@@ -8,12 +8,24 @@
         "slug": "installation"
     },
     {
+        "title": "Language Settings, Add Language & Translation",
+        "slug": "translations"
+    },
+    {
+        "title": "AI Setup (OpenRouter)",
+        "slug": "ai-setup"
+    },
+    {
         "title": "Colors",
         "slug": "colors"
     },
     {
         "title": "Custom Colors (Developer)",
         "slug": "color-developer"
+    },
+    {
+        "title": "Auto SEO",
+        "slug": "auto-seo"
     },
     {
         "title": "Manual Update",
