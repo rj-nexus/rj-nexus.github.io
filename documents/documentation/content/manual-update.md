@@ -47,15 +47,15 @@ Find the latest release and download the source/package `.zip` file.
 
 ### Option B: Official Website
 
-Open the download page: <https://rjnexus.org/en/download>
+Open the official website: <https://rjnexus.org/en/download>
 
-**Download page, step 1:**
+**1. Click the Download button in the header.**
 
-![Official site download step 1](https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/manual-update/download-site-step1.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/manual-update/download-site-step1.png" alt="Click the Download button in the header" width="720">
 
-**Download page, step 2:**
+**2. On the Download page, pick the latest version and download the ZIP file.**
 
-![Official site download step 2](https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/manual-update/download-site-step2.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/manual-update/download-site-step2.png" alt="Download page" width="720">
 
 Keep the downloaded `.zip` file. **Do not extract it on your computer.**
 
