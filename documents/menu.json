@@ -8,6 +8,14 @@
         "slug": "installation"
     },
     {
+        "title": "Colors",
+        "slug": "colors"
+    },
+    {
+        "title": "Custom Colors (Developer)",
+        "slug": "color-developer"
+    },
+    {
         "title": "Manual Update",
         "slug": "manual-update"
     },
