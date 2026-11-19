@@ -12,6 +12,10 @@
         "slug": "manual-update"
     },
     {
+    "title": "RJ Builder",
+    "slug": "rj-builder"
+    },
+    {
         "title": "Plugins",
         "slug": "plugins"
     }
