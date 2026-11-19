@@ -16,11 +16,11 @@ These colors control the appearance of the admin panel itself - the sidebar, pri
 
 **Step 1** — From the sidebar open **Settings**, then locate the **Colors** card in the settings grid.
 
-![Settings → Colors](../../assets/photo/color-front-admin/color-admin-step1.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/color-front-admin/color-admin-step1.png" alt="Settings → Colors" style="max-width:100%;height:auto;">
 
 **Step 2** — Choose a preset or adjust individual colors. Changes apply to the admin panel immediately after saving.
 
-![Admin color settings](../../assets/photo/color-front-admin/color-admin-step2.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/color-front-admin/color-admin-step2.png" alt="Admin color settings" style="max-width:100%;height:auto;">
 
 ---
 
@@ -30,11 +30,11 @@ These colors are the ones visitors see on your public site - links, buttons, and
 
 **Step 1** — From the sidebar open **Appearance**, then click **Colors**.
 
-![Appearance → Colors](../../assets/photo/color-front-admin/color-front-step1.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/color-front-admin/color-front-step1.png" alt="Appearance → Colors" style="max-width:100%;height:auto;">
 
 **Step 2** — Select a global color preset or fine-tune the individual values. These act as the base palette for the frontend.
 
-![Frontend color settings](../../assets/photo/color-front-admin/color-front-step2.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/color-front-admin/color-front-step2.png" alt="Frontend color settings" style="max-width:100%;height:auto;">
 
 ---
 
@@ -44,11 +44,11 @@ Some themes provide their own dedicated color controls, independent of the globa
 
 **Step 1** — From the sidebar open **Appearance**, then click **Customize** for the active theme.
 
-![Appearance → Customize](../../assets/photo/color-front-admin/color-theme-step1.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/color-front-admin/color-theme-step1.png" alt="Appearance → Customize" style="max-width:100%;height:auto;">
 
 **Step 2** — Open the **Colors** section of the customizer and adjust the theme-specific values. Each control maps directly to a CSS variable used by the theme.
 
-![Theme customizer colors](../../assets/photo/color-front-admin/color-theme-step2.png)
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/color-front-admin/color-theme-step2.png" alt="Theme customizer colors" style="max-width:100%;height:auto;">
 
 ---
 
