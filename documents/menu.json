@@ -8,6 +8,10 @@
         "slug": "installation"
     },
     {
+        "title": "Manual Update",
+        "slug": "manual-update"
+    },
+    {
         "title": "Plugins",
         "slug": "plugins"
     }
