@@ -97,7 +97,7 @@ Paste the key you copied from OpenRouter into the **API Key** field.
 
 This is the main AI configuration screen. Each colored box marks one section:
 
-<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/openroute-api/ai-api-screen.png" alt="AI Settings Screen" style="max-width:100%;height:auto;">
+<img src="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/assets/photo/openroute-api/api-key-options.png" alt="AI Settings Screen" style="max-width:100%;height:auto;">
 
 | Box | Section | What it does |
 |-----|---------|--------------|
