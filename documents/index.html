@@ -1,352 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RJ Nexus Documentation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RJ Nexus Documentation</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<style>
+:root{--bg:#050505;--ink:#f4f4f4;--text:#d4d4d4;--mute:#a3a3a3;--dim:#6b6b6b;--line:rgba(255,255,255,.12);--surf:rgba(8,8,8,.78);
+--hd:'Space Grotesk','Inter',system-ui,sans-serif;--tx:'Inter',system-ui,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:400 16px/1.7 var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#262626;border-radius:8px}
 
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:320px;z-index:10;padding:28px 22px;overflow-y:auto;background:var(--surf);backdrop-filter:blur(14px);border-right:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font:700 16px var(--hd);letter-spacing:.14em}
+.logo img{height:28px;width:auto;display:block}
+.logo span{color:var(--dim);font-weight:500;padding-left:12px;border-left:1px solid var(--line)}
+.home{display:inline-block;margin:18px 0 22px;color:var(--dim);font-size:13px;text-decoration:none;transition:color .2s}
+.home:hover{color:var(--ink)}
+.search{position:relative;margin-bottom:20px}
+.search svg{position:absolute;left:14px;top:13px;width:15px;height:15px;color:var(--dim)}
+.search input{width:100%;padding:11px 14px 11px 38px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--ink);font:400 14px var(--tx);outline:none;transition:border-color .25s,background .25s}
+.search input::placeholder{color:var(--dim)}
+.search input:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.07)}
+.menu-list,#search-results{list-style:none}
+.menu-list li{margin-bottom:2px}
+.menu-list a{position:relative;display:block;padding:10px 14px 10px 18px;border-radius:10px;color:var(--mute);text-decoration:none;font-size:14.5px;line-height:1.45;transition:color .2s,background .2s,padding .25s}
+.menu-list a::before{content:"";position:absolute;left:0;top:50%;width:2px;height:0;background:var(--ink);transform:translateY(-50%);transition:height .3s cubic-bezier(.2,.7,.2,1)}
+.menu-list a:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+.menu-list a.active{color:var(--ink);background:rgba(255,255,255,.06);font-weight:500;padding-left:22px}
+.menu-list a.active::before{height:55%}
+#search-results{display:none}
+#search-results a{display:block;padding:12px 14px;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--text);transition:border-color .2s,background .2s}
+#search-results a:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
+#search-results strong{display:block;color:var(--ink);font-size:14px;font-weight:500;margin-bottom:3px}
+#search-results span{display:block;color:var(--mute);font-size:12.5px;line-height:1.5}
+mark{background:rgba(255,255,255,.22);color:var(--ink);padding:0 2px;border-radius:3px}
+.no-results{color:var(--dim);font-size:14px;padding:8px}
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+.main{margin-left:320px;padding:56px 5vw 80px;display:flex;justify-content:center;position:relative;z-index:1}
+.content-card{width:100%;max-width:820px;min-height:80vh;padding:48px 52px;border:1px solid var(--line);border-radius:22px;background:var(--surf);backdrop-filter:blur(10px);transition:opacity .16s ease,transform .16s ease,filter .16s ease}
+.content-card.out{opacity:0;transform:translateY(-6px);filter:blur(4px)}
+.content-card.in>*{animation:rise .65s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
 
-    <style>
-        :root {
-            --bg: #05050a;
-            --surface: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --text: #e5e7eb;
-            --muted: #94a3b8;
-            --primary: #a78bfa;
-            --secondary: #f472b6;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+.markdown-body h1{font:700 40px/1.15 var(--hd);color:var(--ink);letter-spacing:-.02em;margin-bottom:24px}
+.markdown-body h2{font:700 27px/1.2 var(--hd);color:var(--ink);margin:44px 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.markdown-body h3{font:700 20px/1.3 var(--hd);color:var(--ink);margin:32px 0 14px}
+.markdown-body p{color:var(--text);margin-bottom:18px}
+.markdown-body a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:3px;transition:text-decoration-color .2s}
+.markdown-body a:hover{text-decoration-color:var(--ink)}
+.markdown-body ul,.markdown-body ol{padding-left:24px;margin-bottom:18px;color:var(--text)}
+.markdown-body li{margin-bottom:8px}
+.markdown-body strong{color:var(--ink);font-weight:600}
+.markdown-body code{font:400 .88em var(--mono);background:rgba(255,255,255,.09);padding:2px 7px;border-radius:6px;color:var(--ink)}
+.markdown-body pre{background:rgba(0,0,0,.55);border:1px solid var(--line);border-radius:14px;padding:20px 22px;overflow-x:auto;margin-bottom:22px}
+.markdown-body pre code{background:none;padding:0;font-size:13.5px;line-height:1.65}
+.markdown-body blockquote{border-left:2px solid var(--dim);padding:2px 0 2px 18px;margin-bottom:18px;color:var(--mute)}
+.markdown-body hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+.markdown-body img{max-width:100%;border-radius:12px;border:1px solid var(--line)}
+.markdown-body table{border-collapse:collapse;width:100%;margin-bottom:22px;font-size:14.5px;display:block;overflow-x:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:9px 14px;text-align:left}
+.markdown-body th{color:var(--ink);background:rgba(255,255,255,.04)}
 
-        body {
-            background-color: var(--bg); color: var(--text);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh; display: flex; overflow-x: hidden; position: relative;
-        }
-
-        .bg-orb {
-            position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; opacity: 0.5;
-            animation: float 10s infinite alternate; pointer-events: none;
-        }
-        .orb-1 { width: 400px; height: 400px; background: rgba(167, 139, 250, 0.3); top: -100px; left: -100px; }
-        .orb-2 { width: 300px; height: 300px; background: rgba(244, 114, 182, 0.2); bottom: -50px; right: -50px; animation-delay: -5s; }
-
-        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
-
-        .sidebar {
-            width: 320px; background: var(--surface); backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border); padding: 32px 24px;
-            position: fixed; height: 100vh; overflow-y: auto; z-index: 10;
-        }
-
-        .home-link {
-            display: inline-flex; align-items: center; gap: 8px; color: var(--muted);
-            text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 24px;
-            transition: color 0.2s;
-        }
-        .home-link:hover { color: var(--primary); }
-
-        .sidebar h2 {
-            font-size: 22px; font-weight: 800; margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        .search-container { margin-bottom: 24px; position: relative; }
-        .search-input {
-            width: 100%; padding: 12px 16px 12px 40px; border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
-            color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: all 0.3s;
-        }
-        .search-input:focus { border-color: var(--primary); background: rgba(255,255,255,0.08); box-shadow: 0 0 15px -5px var(--primary); }
-        .search-icon { position: absolute; left: 14px; top: 13px; width: 16px; height: 16px; color: var(--muted); }
-
-        .menu-list { list-style: none; }
-        .menu-list li { margin-bottom: 8px; }
-        .menu-list a {
-            color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500;
-            display: block; padding: 12px 16px; border-radius: 12px; transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-        .menu-list a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
-        .menu-list a.active {
-            color: var(--primary); background: rgba(167, 139, 250, 0.1);
-            border-color: rgba(167, 139, 250, 0.2); border-left: 3px solid var(--primary); font-weight: 600;
-        }
-
-        #search-results { display: none; list-style: none; }
-        #search-results a {
-            display: block; padding: 12px 16px; border-radius: 12px; color: var(--text);
-            text-decoration: none; background: rgba(255,255,255,0.02); margin-bottom: 8px;
-            border: 1px solid var(--border); font-size: 14px; transition: 0.2s;
-        }
-        #search-results a:hover { background: rgba(167, 139, 250, 0.1); border-color: var(--primary); }
-        #search-results strong { display: block; color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-        #search-results span { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
-        #search-results mark { background: rgba(167,139,250,0.3); color: #fff; padding: 0 2px; border-radius: 3px; }
-        .no-results { color: var(--muted); font-size: 14px; padding: 10px; font-style: italic; }
-
-        .main-content {
-            margin-left: 320px; padding: 60px 80px; flex-grow: 1; max-width: 1000px;
-            position: relative; z-index: 1;
-        }
-
-        .content-card {
-            background: var(--surface); backdrop-filter: blur(20px);
-            border: 1px solid var(--border); border-radius: 24px; padding: 48px;
-            box-shadow: 0 30px 60px -30px rgba(0,0,0,0.8); min-height: 80vh;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .markdown-body h1 { font-size: 40px; font-weight: 800; margin-bottom: 24px; color: #fff; letter-spacing: -0.02em; }
-        .markdown-body h2 { font-size: 28px; font-weight: 700; margin: 40px 0 20px; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
-        .markdown-body h3 { font-size: 22px; font-weight: 600; margin: 32px 0 16px; color: #fff; }
-        .markdown-body p { font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; }
-        .markdown-body a { color: var(--primary); text-decoration: none; font-weight: 500; }
-        .markdown-body a:hover { text-decoration: underline; }
-        .markdown-body ul, .markdown-body ol { padding-left: 24px; margin-bottom: 20px; color: var(--muted); line-height: 1.8; }
-        .markdown-body li { margin-bottom: 10px; }
-        .markdown-body code { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-family: 'Fira Code', monospace; color: var(--secondary); font-size: 14px; }
-        .markdown-body pre { background: rgba(0,0,0,0.4); padding: 24px; border-radius: 16px; overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px; }
-        .markdown-body pre code { background: transparent; padding: 0; color: #e5e7eb; font-size: 14px; }
-
-        @media (max-width: 900px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); padding: 24px; }
-            .main-content { margin-left: 0; padding: 30px 20px; }
-            .content-card { padding: 30px 20px; }
-        }
-    </style>
+@media(max-width:900px){.sidebar{position:relative;width:100%;border-right:0;border-bottom:1px solid var(--line)}.main{margin-left:0;padding:28px 16px 60px}.content-card{padding:28px 20px}.markdown-body h1{font-size:32px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
+<aside class="sidebar">
+  <a class="logo" href="../"><img src="https://raw.githubusercontent.com/mr-ruhid/rare-logos-vault/main/logo/cms/rj-nexus/logo_white.png" alt="RJ Nexus"><span>DOC</span></a>
+  <a class="home" href="../index.html">← Back to Home</a>
+  <div class="search">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input type="text" id="search-input" placeholder="Search docs..." autocomplete="off" aria-label="Search docs">
+  </div>
+  <ul class="menu-list" id="menu-container"><li><span style="color:var(--dim);font-size:14px">Loading menu...</span></li></ul>
+  <ul id="search-results"></ul>
+</aside>
 
-    <div class="sidebar">
-        <a href="../index.html" class="home-link">
-            <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back to Home
-        </a>
-        <h2>Documentation</h2>
+<main class="main">
+  <article class="content-card markdown-body" id="content-area"><p>Loading content...</p></article>
+</main>
 
-        <div class="search-container">
-            <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" id="search-input" class="search-input" placeholder="Search docs (typo tolerant)..." autocomplete="off">
-        </div>
+<script>
+let searchData=[],fuse=null,menuItems=[],token=0,firstLoad=true;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const cacheBust=u=>u+(u.includes('?')?'&':'?')+'_cb='+Date.now();
+const fetchFresh=u=>fetch(cacheBust(u),{cache:'no-store',headers:{'Cache-Control':'no-cache',Pragma:'no-cache'}});
+const escapeHtml=s=>s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'):'';
+function highlightText(text,q){if(!text)return'';let e=escapeHtml(text);if(!q)return e;
+ q.toLowerCase().split(/\s+/).filter(t=>t.length>=2).forEach(t=>{e=e.replace(new RegExp('('+escapeHtml(t).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')});return e}
 
-        <ul class="menu-list" id="menu-container">
-            <li><span style="color:var(--muted); font-size:14px;">Loading menu...</span></li>
-        </ul>
+async function init(){
+ try{
+  const mr=await fetchFresh('./menu.json');
+  if(mr.ok){menuItems=await mr.json();renderMenu(menuItems);
+   loadContent(location.hash.replace('#','')||(menuItems[0]?menuItems[0].slug:'getting-started'))}
+  else document.getElementById('menu-container').innerHTML='<li style="color:var(--mute)">Could not load menu.json</li>';
+  const sr=await fetchFresh('./documentation/search.json');
+  if(sr.ok){searchData=await sr.json();
+   if(searchData.length&&typeof Fuse!=='undefined'){const keys=[{name:'title',weight:3},{name:'content',weight:1}];
+    if(searchData[0]&&'headings' in searchData[0])keys.splice(1,0,{name:'headings',weight:2});
+    fuse=new Fuse(searchData,{keys,threshold:.6,distance:1000,ignoreLocation:true,includeScore:true,includeMatches:true,minMatchCharLength:2,shouldSort:true,findAllMatches:true})}}
+ }catch(e){console.error('Init error:',e)}
+}
+function go(slug){location.hash=slug;document.getElementById('search-input').value='';resetSearch()}
+function renderMenu(items){const c=document.getElementById('menu-container');c.innerHTML='';
+ items.forEach(it=>{const li=document.createElement('li'),a=document.createElement('a');
+  a.href='#'+it.slug;a.textContent=it.title;a.dataset.slug=it.slug;
+  a.addEventListener('click',e=>{e.preventDefault();go(it.slug)});li.appendChild(a);c.appendChild(li)})}
 
-        <ul id="search-results"></ul>
-    </div>
+document.getElementById('search-input').addEventListener('input',e=>{
+ const q=e.target.value.trim(),mc=document.getElementById('menu-container'),sr=document.getElementById('search-results');
+ if(!q){resetSearch();return}
+ mc.style.display='none';sr.style.display='block';
+ if(!fuse){sr.innerHTML='<li class="no-results">Search index is not ready.</li>';return}
+ const res=fuse.search(q).slice(0,8);sr.innerHTML='';
+ if(!res.length){sr.innerHTML='<li class="no-results">No results for "'+escapeHtml(q)+'"</li>';return}
+ res.forEach(r=>{const it=r.item,li=document.createElement('li'),a=document.createElement('a');a.href='#'+it.slug;
+  const snip=it.excerpt||(it.content||'').substring(0,120)+'...';
+  a.innerHTML='<strong>'+highlightText(it.title,q)+'</strong><span>'+highlightText(snip,q)+'</span>';
+  a.addEventListener('click',ev=>{ev.preventDefault();go(it.slug)});li.appendChild(a);sr.appendChild(li)})});
+function resetSearch(){document.getElementById('menu-container').style.display='block';const s=document.getElementById('search-results');s.style.display='none';s.innerHTML=''}
 
-    <div class="main-content">
-        <div class="content-card markdown-body" id="content-area">
-            <p>Loading content...</p>
-        </div>
-    </div>
+async function loadContent(slug){
+ const area=document.getElementById('content-area'),my=++token;
+ document.querySelectorAll('.menu-list a').forEach(l=>l.classList.toggle('active',l.dataset.slug===slug));
+ if(!firstLoad){area.classList.add('out');await sleep(170);if(my!==token)return}
+ let html;
+ try{const r=await fetchFresh('./documentation/content/'+encodeURIComponent(slug)+'.md');
+  if(!r.ok)throw new Error('HTTP '+r.status);html=marked.parse(await r.text())}
+ catch(e){console.error(e);html='<h1>404 - Document Not Found</h1><p>The system tried to load: <code>./documentation/content/'+escapeHtml(slug)+'.md</code></p>'}
+ if(my!==token)return;
+ area.innerHTML=html;
+ [...area.children].forEach((c,i)=>c.style.animationDelay=Math.min(i,10)*45+'ms');
+ area.classList.remove('out','in');void area.offsetWidth;area.classList.add('in');
+ const m=menuItems.find(x=>x.slug===slug);document.title=(m?m.title+' · ':'')+'DOC RJ NEXUS';
+ if(!firstLoad)scrollTo({top:0,behavior:'smooth'});
+ firstLoad=false;pulse=1;
+}
+addEventListener('hashchange',()=>{const s=location.hash.replace('#','');if(s)loadContent(s)});
 
-    <script>
-        let searchData = [];
-        let fuse = null;
-
-        function cacheBust(url) {
-            const sep = url.includes('?') ? '&' : '?';
-            return url + sep + '_cb=' + Date.now();
-        }
-
-        async function fetchFresh(url) {
-            return fetch(cacheBust(url), {
-                cache: 'no-store',
-                headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-            });
-        }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
-        function highlightText(text, query) {
-            if (!text) return '';
-            let escaped = escapeHtml(text);
-            if (!query) return escaped;
-
-            const tokens = query.toLowerCase().split(/\s+/).filter(t => t.length >= 2);
-            if (tokens.length === 0) return escaped;
-
-            tokens.forEach(tok => {
-                const re = new RegExp('(' + tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-                escaped = escaped.replace(re, '<mark>$1</mark>');
-            });
-            return escaped;
-        }
-
-        async function init() {
-            try {
-                const menuResponse = await fetchFresh('./menu.json');
-                if (menuResponse.ok) {
-                    const menuItems = await menuResponse.json();
-                    renderMenu(menuItems);
-
-                    const currentHash = window.location.hash.replace('#', '') || (menuItems.length > 0 ? menuItems[0].slug : 'getting-started');
-                    loadContent(currentHash);
-                } else {
-                    document.getElementById('menu-container').innerHTML = '<li style="color:#ef4444;">Error loading menu.json</li>';
-                }
-
-                const searchResponse = await fetchFresh('./documentation/search.json');
-                if (searchResponse.ok) {
-                    searchData = await searchResponse.json();
-
-                    if (searchData.length > 0 && typeof Fuse !== 'undefined') {
-                        var searchKeys = [
-                            { name: 'title', weight: 3 },
-                            { name: 'content', weight: 1 }
-                        ];
-
-                        if (searchData[0] && 'headings' in searchData[0]) {
-                            searchKeys.splice(1, 0, { name: 'headings', weight: 2 });
-                        }
-
-                        fuse = new Fuse(searchData, {
-                            keys: searchKeys,
-                            threshold: 0.6,
-                            distance: 1000,
-                            ignoreLocation: true,
-                            includeScore: true,
-                            includeMatches: true,
-                            minMatchCharLength: 2,
-                            shouldSort: true,
-                            findAllMatches: true
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error('Init error:', error);
-            }
-        }
-
-        function renderMenu(menuItems) {
-            const menuContainer = document.getElementById('menu-container');
-            menuContainer.innerHTML = '';
-
-            menuItems.forEach(item => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = `#${item.slug}`;
-                a.textContent = item.title;
-                a.setAttribute('data-slug', item.slug);
-
-                a.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.location.hash = item.slug;
-                    document.getElementById('search-input').value = '';
-                    resetSearch();
-                });
-
-                li.appendChild(a);
-                menuContainer.appendChild(li);
-            });
-        }
-
-        document.getElementById('search-input').addEventListener('input', function(e) {
-            const query = e.target.value.trim();
-            const menuContainer = document.getElementById('menu-container');
-            const searchResults = document.getElementById('search-results');
-
-            if (query.length === 0) { resetSearch(); return; }
-
-            if (!fuse) {
-                menuContainer.style.display = 'none';
-                searchResults.style.display = 'block';
-                searchResults.innerHTML = `<li class="no-results">Search index is not ready.</li>`;
-                return;
-            }
-
-            const results = fuse.search(query).slice(0, 8);
-
-            menuContainer.style.display = 'none';
-            searchResults.style.display = 'block';
-            searchResults.innerHTML = '';
-
-            if (results.length > 0) {
-                results.forEach(res => {
-                    const item = res.item;
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.href = `#${item.slug}`;
-
-                    const titleHtml = highlightText(item.title, query);
-                    const snippetText = item.excerpt || (item.content || '').substring(0, 120) + '...';
-                    const snippetHtml = highlightText(snippetText, query);
-
-                    a.innerHTML = `<strong>${titleHtml}</strong><span>${snippetHtml}</span>`;
-
-                    a.addEventListener('click', (ev) => {
-                        ev.preventDefault();
-                        window.location.hash = item.slug;
-                        document.getElementById('search-input').value = '';
-                        resetSearch();
-                    });
-                    li.appendChild(a);
-                    searchResults.appendChild(li);
-                });
-            } else {
-                searchResults.innerHTML = `<li class="no-results">No results found for "${query}"</li>`;
-            }
-        });
-
-        function resetSearch() {
-            document.getElementById('menu-container').style.display = 'block';
-            document.getElementById('search-results').style.display = 'none';
-            document.getElementById('search-results').innerHTML = '';
-        }
-
-        async function loadContent(slug) {
-            const contentArea = document.getElementById('content-area');
-            contentArea.innerHTML = '<p style="color:var(--primary);">Loading document...</p>';
-
-            document.querySelectorAll('.menu-list a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-slug') === slug) link.classList.add('active');
-            });
-
-            try {
-                const response = await fetchFresh(`./documentation/content/${slug}.md`);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-                const markdownText = await response.text();
-                contentArea.innerHTML = marked.parse(markdownText);
-
-            } catch (error) {
-                console.error('Məzmun yüklənmədi:', error);
-                contentArea.innerHTML = `
-                    <h1 style="color: #ef4444; font-size: 32px;">404 - Document Not Found</h1>
-                    <p style="color: var(--muted);">The system tried to load: <br><code>./documentation/content/${slug}.md</code></p>
-                `;
-            }
-        }
-
-        window.addEventListener('hashchange', () => {
-            const slug = window.location.hash.replace('#', '');
-            if (slug) loadContent(slug);
-        });
-
-        init();
-    </script>
+/* background: constellation. The black hole only reacts in the empty margins, never over the sidebar or the text */
+const cv=document.getElementById('sky'),cx=cv.getContext('2d'),REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let W,H,D,pts=[],tx=0,ty=0,mx=-9999,my=-9999,str=0,idle=999,edge=false,pulse=0;const LINK=130,R=190,R0=16;
+function sky(){D=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0);
+ const n=Math.min(70,Math.round(W*H/22000));
+ pts=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()<.15?1.7:Math.random()*.8+.5,a:Math.random()*.4+.3,t:Math.random()*6.28,X:0,Y:0,k:1}))}
+function warp(p){const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);p.k=1;
+ if(str>.01&&d<R){const f=Math.pow(1-d/R,2)*str,a=f*.9,c=Math.cos(a),s=Math.sin(a),sc=1-f*.6,nx=(dx*c-dy*s)*sc,ny=(dx*s+dy*c)*sc;
+  p.X=mx+nx;p.Y=my+ny;p.k=Math.min(1,Math.max(0,(Math.hypot(nx,ny)-R0*str)/(R0*1.4)))}else{p.X=p.x;p.Y=p.y}}
+function draw(){cx.clearRect(0,0,W,H);
+ mx+=(tx-mx)*.12;my+=(ty-my)*.12;idle++;str+=(((edge&&idle<90)?1:0)-str)*.05;pulse*=.965;
+ for(const p of pts){if(!REDUCED){p.x+=p.vx;p.y+=p.vy;p.t+=.012;if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;if(p.y<-20)p.y=H+20;if(p.y>H+20)p.y=-20}warp(p)}
+ for(let i=0;i<pts.length;i++){const p=pts[i];
+  for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d>LINK)continue;
+   const m=Math.hypot((p.X+q.X)/2-mx,(p.Y+q.Y)/2-my),g=m<170?(1-m/170)*str:0,a=(1-d/LINK)*(.1+g*.4+pulse*.25)*Math.min(p.k,q.k);
+   if(a<.005)continue;cx.strokeStyle='rgba(255,255,255,'+a.toFixed(3)+')';cx.lineWidth=.7;cx.beginPath();cx.moveTo(p.X,p.Y);cx.lineTo(q.X,q.Y);cx.stroke()}}
+ for(const p of pts){const tw=REDUCED?1:.75+.25*Math.sin(p.t);cx.fillStyle='rgba(255,255,255,'+Math.min(1,p.a*tw*p.k*(1+pulse*.9)).toFixed(3)+')';cx.beginPath();cx.arc(p.X,p.Y,p.r,0,6.283);cx.fill()}
+ if(str>.02){const r=R0*str,gr=cx.createRadialGradient(mx,my,r*.9,mx,my,r*2.6);
+  gr.addColorStop(0,'rgba(255,255,255,'+(.26*str).toFixed(3)+')');gr.addColorStop(.35,'rgba(255,255,255,'+(.05*str).toFixed(3)+')');gr.addColorStop(1,'rgba(255,255,255,0)');
+  cx.fillStyle=gr;cx.beginPath();cx.arc(mx,my,r*2.6,0,6.283);cx.fill();
+  cx.fillStyle='#050505';cx.beginPath();cx.arc(mx,my,r,0,6.283);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,'+(.5*str).toFixed(3)+')';cx.lineWidth=1;cx.beginPath();cx.arc(mx,my,r,0,6.283);cx.stroke()}
+ if(!REDUCED)requestAnimationFrame(draw)}
+addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;
+ edge=!(e.target.closest&&e.target.closest('.sidebar,.content-card'));
+ if(edge){if(str<.03){mx=e.clientX;my=e.clientY}tx=e.clientX;ty=e.clientY;idle=0}},{passive:true});
+document.addEventListener('mouseleave',()=>{edge=false});
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{sky();if(REDUCED)draw()},150)});
+sky();draw();init();
+</script>
 </body>
 </html>
