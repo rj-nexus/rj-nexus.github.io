@@ -38,5 +38,9 @@
     {
         "title": "Plugins",
         "slug": "plugins"
+    },
+    {
+        "title": "Theme Development (Widget-First, Spotlight Example)",
+        "slug": "theme-development"
     }
 ]
