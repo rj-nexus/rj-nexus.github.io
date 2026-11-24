@@ -1,252 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="page_title">RJ Nexus Documentation</title>
-    
-    <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
-    
-    <style>
-        :root {
-            --bg: #05050a;
-            --text: #e5e7eb;
-            --muted: #94a3b8;
-            --primary: #a78bfa;
-            --secondary: #f472b6;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            position: relative;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOC RJ NEXUS</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--ink:#f4f4f4;--mute:#a3a3a3;--dim:#6b6b6b;--line:rgba(255,255,255,.14);
+--hd:'Space Grotesk','Inter',system-ui,sans-serif;--tx:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+header,main,footer{position:relative;z-index:1}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+a{color:inherit}
 
-        /* === ARXA FON İŞIQLARI (GLASS EFFEKTİ ÜÇÜN) === */
-        .bg-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.6;
-            animation: float 10s infinite alternate;
-        }
-        .orb-1 { width: 400px; height: 400px; background: rgba(167, 139, 250, 0.4); top: -100px; left: -100px; }
-        .orb-2 { width: 300px; height: 300px; background: rgba(244, 114, 182, 0.3); bottom: -50px; right: -50px; animation-delay: -5s; }
-        .orb-3 { width: 250px; height: 250px; background: rgba(59, 130, 246, 0.3); top: 40%; left: 40%; animation-duration: 15s; }
+header{display:flex;justify-content:space-between;align-items:center;padding:28px 5vw}
+.wd{display:inline-block}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 18px var(--hd);letter-spacing:.14em}
+.logo img{height:30px;width:auto;display:block}
+.logo span{color:var(--dim);font-weight:500;padding-left:12px;border-left:1px solid var(--line)}
+.lang{display:flex;gap:6px}
+.lang button{font:500 13px var(--tx);letter-spacing:.08em;background:none;color:var(--mute);cursor:pointer;padding:6px 12px;border:1px solid transparent;border-radius:999px}
+.lang button[aria-pressed=true]{color:var(--ink);border-color:var(--line)}
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
-        }
+.hero{min-height:72vh;display:flex;flex-direction:column;justify-content:center;padding:6vh 5vw}
+h1{font:700 clamp(54px,12vw,168px)/.95 var(--hd);letter-spacing:-.03em}
+h1 .d{display:block;font-size:.34em;letter-spacing:.5em;font-weight:500;color:var(--dim);margin-bottom:.5em}
+h1 .w{display:inline-block;opacity:0;transform:translateY(.12em);animation:in 1.1s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.lead{max-width:46ch;color:var(--mute);font-size:19px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:12px;margin-top:34px;padding:14px 26px;border:1px solid var(--ink);border-radius:999px;text-decoration:none;font:500 15px var(--tx);width:max-content;transition:background .25s,color .25s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.facts{margin-top:56px;color:var(--dim);font-size:14px;letter-spacing:.04em}
 
-        /* === HEADER === */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            margin: 20px 40px;
-            
-            /* Glassmorphism */
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .lang-switch { display: flex; gap: 10px; }
-        .lang-switch button {
-            background: rgba(255, 255, 255, 0.05); color: var(--text); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s;
-            font-family: inherit; backdrop-filter: blur(10px);
-        }
-        .lang-switch button:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); color: var(--primary); }
+section{padding:10vh 5vw 0}
+h2{font:700 clamp(26px,3.6vw,40px)/1.1 var(--hd);letter-spacing:-.01em;margin-bottom:10px}
+.sub{color:var(--mute);margin-bottom:36px}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
+.doc{display:flex;align-items:center;gap:18px;padding:20px 22px;min-height:84px;border:1px solid var(--line);border-radius:14px;text-decoration:none;font:500 16px/1.4 var(--tx);background:rgba(5,5,5,.6);backdrop-filter:blur(4px);transition:border-color .25s,background .25s,transform .25s}
+.doc em{font:500 13px var(--tx);font-style:normal;color:var(--dim);flex:none;letter-spacing:.06em}
+.doc span{flex:1}
+.doc i{font-style:normal;color:var(--dim);transition:transform .25s,color .25s}
+.doc:hover,.doc:focus-visible{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.05);transform:translateY(-2px)}
+.doc:hover i{color:var(--ink);transform:translateX(4px)}
 
-        /* === HERO SECTION === */
-        .hero {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 80px 20px;
-        }
-        h1 {
-            font-size: 64px;
-            font-weight: 800;
-            margin-bottom: 24px;
-            letter-spacing: -0.03em;
-            max-width: 900px;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px rgba(167, 139, 250, 0.3);
-        }
-        p {
-            font-size: 20px;
-            line-height: 1.6;
-            color: var(--muted);
-            margin-bottom: 48px;
-            max-width: 650px;
-        }
-        
-        /* CTA Button - Glass & Glowing */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 40px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.8), rgba(244, 114, 182, 0.8));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 40px -10px var(--primary);
-            transition: all 0.3s ease;
-        }
-        .btn:hover { 
-            transform: translateY(-3px) scale(1.02); 
-            box-shadow: 0 15px 50px -10px var(--primary);
-            background: linear-gradient(135deg, rgba(167, 139, 250, 1), rgba(244, 114, 182, 1));
-        }
-
-        /* === FEATURES (GLASS CARDS) === */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            padding: 0 40px 80px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .card {
-            /* Glassmorphism */
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 40px;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        }
-        .card:hover { 
-            border-color: rgba(167, 139, 250, 0.3); 
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5), 0 0 40px -10px rgba(167, 139, 250, 0.1);
-        }
-        .card-icon {
-            width: 48px; height: 48px; border-radius: 14px;
-            background: rgba(167, 139, 250, 0.1); color: var(--primary);
-            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
-            border: 1px solid rgba(167, 139, 250, 0.2);
-        }
-        .card h3 { font-size: 22px; margin-bottom: 12px; color: #fff; font-weight: 700; }
-        .card p { font-size: 15px; margin-bottom: 0; color: var(--muted); }
-
-        @media (max-width: 768px) {
-            header { padding: 15px 20px; margin: 15px; flex-direction: column; gap: 15px; }
-            h1 { font-size: 42px; }
-            .features { padding: 0 20px 60px 20px; }
-        }
-    </style>
+footer{margin-top:14vh;border-top:1px solid var(--line)}
+.foot{padding:28px 5vw 36px;color:var(--dim);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 40px;justify-content:space-between}
+.foot a{color:var(--mute);text-decoration:none;margin-left:16px}.foot a:hover{color:var(--ink)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}h1 .w{opacity:1;transform:none}}
+</style>
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 
-    <!-- Arxa Fon İşıqları -->
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-orb orb-3"></div>
+<header>
+  <a class="logo" href="./"><img src="https://raw.githubusercontent.com/mr-ruhid/rare-logos-vault/main/logo/cms/rj-nexus/logo_white.png" alt="RJ Nexus"><span>DOC</span></a>
+  <div class="lang" role="group" aria-label="Language">
+    <button data-l="en" aria-pressed="true">EN</button>
+    <button data-l="az" aria-pressed="false">AZ</button>
+  </div>
+</header>
 
-    <!-- Header -->
-    <header>
-        <div class="logo">RJ Nexus</div>
-        <div class="lang-switch">
-            <button onclick="loadLanguage('en')">EN</button>
-            <button onclick="loadLanguage('az')">AZ</button>
-        </div>
-    </header>
+<main>
+<div class="hero">
+  <h1 aria-label="DOC RJ NEXUS"><span class="d w" style="animation-delay:.1s" aria-hidden="true">DOC</span><span class="w" style="animation-delay:.3s" aria-hidden="true">RJ</span> <span class="w" style="animation-delay:.5s" aria-hidden="true">NEXUS</span></h1>
+  <p class="lead" data-i18n="lead">Everything you need to build, customize and scale your next project with RJ Nexus CMS.</p>
+  <a class="btn" href="./documents/"><span data-i18n="start">Read the docs</span><span aria-hidden="true">→</span></a>
+  <p class="facts" data-i18n="facts">80+ widgets · 50+ languages · Laravel 12 · self-hosted</p>
+</div>
 
-    <!-- Hero -->
-    <div class="hero">
-        <h1 data-i18n="hero_title">RJ Nexus Documentation</h1>
-        <p data-i18n="hero_desc">Everything you need to build, customize, and scale your next project with RJ Nexus CMS.</p>
-        <!-- DÜYMƏ BİRBAŞA documentation/ QOVLUĞUNA GEDİR -->
-        <a href="./documents/" class="btn">
-            <span data-i18n="btn_start">Read Documentation</span>
-            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-        </a>
-    </div>
+<section>
+  <h2 data-i18n="h_docs">Documentation</h2>
+  <p class="sub" data-i18n="sub_docs">Choose a topic.</p>
+  <div class="docs" id="docs"></div>
+</section>
+</main>
 
-    <!-- Xüsusiyyətlər (Glass Kartlar) -->
-    <div class="features">
-        <div class="card">
-            <div class="card-icon">
-                <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            </div>
-            <h3 data-i18n="f1_title">Getting Started</h3>
-            <p data-i18n="f1_desc">Learn how to install and configure RJ Nexus on your server in minutes.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon">
-                <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-            </div>
-            <h3 data-i18n="f2_title">Plugin Development</h3>
-            <p data-i18n="f2_desc">Discover how to create, manage, and distribute your own plugins.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon">
-                <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
-            </div>
-            <h3 data-i18n="f3_title">Theme Customization</h3>
-            <p data-i18n="f3_desc">Master the art of building custom themes with RJBuilder and Tailwind.</p>
-        </div>
-    </div>
+<footer>
+  <div class="foot"><span data-i18n="foot">Created by Ruhid Javadov. Released under the MIT License.</span>
+  <span><a href="https://rjnexus.org">rjnexus.org</a><a href="https://github.com/rj-nexus/rj-nexus">GitHub</a></span></div>
+</footer>
 
-    <!-- Tərcümə Sistemi -->
-    <script>
-        async function loadLanguage(lang) {
-            try {
-                const response = await fetch(`./lang/${lang}.json`);
-                const translations = await response.json();
-                document.querySelectorAll('[data-i18n]').forEach(element => {
-                    const key = element.getAttribute('data-i18n');
-                    if (translations[key]) element.textContent = translations[key];
-                });
-                document.documentElement.lang = lang;
-            } catch (error) { console.error('Translation error:', error); }
-        }
-        loadLanguage('en');
-    </script>
+<script>
+let els=[],domReady=false,rfT;
+function refresh(){if(!domReady)return;cancelAnimationFrame(rfT);rfT=requestAnimationFrame(()=>{collect();measure()})}
+const DOCS_BASE='./documents/#',LIMIT=10;
+const MENU_URLS=['./documents/menu.json','https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/documents/menu.json'];
+const FALLBACK=[["Getting Started","getting-started"],["Installation","installation"],["Language Settings, Add Language & Translation","translations"],["AI Setup (OpenRouter)","ai-setup"],["Colors","colors"],["Custom Colors (Developer)","color-developer"],["Auto SEO","auto-seo"],["Manual Update","manual-update"],["RJ Builder","rj-builder"],["Plugins","plugins"]].map(a=>({title:a[0],slug:a[1]}));
+const T={
+en:{lead:'Everything you need to build, customize and scale your next project with RJ Nexus CMS.',start:'Read the docs',facts:'80+ widgets · 50+ languages · Laravel 12 · self-hosted',h_docs:'Documentation',sub_docs:'Choose a topic.',foot:'Created by Ruhid Javadov. Released under the MIT License.'},
+az:{lead:'RJ Nexus CMS ilə növbəti layihənizi qurmaq, fərdiləşdirmək və böyütmək üçün lazım olan hər şey.',start:'Sənədləri oxu',facts:'80+ widget · 50+ dil · Laravel 12 · öz hostinqinizdə',h_docs:'Sənədləşmə',sub_docs:'Mövzu seçin.',foot:'Müəllif: Ruhid Javadov. MIT lisenziyası ilə yayımlanır.'}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function renderDocs(list){
+ document.getElementById('docs').innerHTML=list.slice(0,LIMIT).map((t,i)=>`<a class="doc" href="${DOCS_BASE}${encodeURIComponent(t.slug)}"><em>${String(i+1).padStart(2,'0')}</em><span>${esc(t.title)}</span><i aria-hidden="true">→</i></a>`).join('');refresh();
+}
+async function loadMenu(){
+ for(const u of MENU_URLS){try{const r=await fetch(u,{cache:'no-cache'});if(!r.ok)continue;const j=await r.json();
+  if(Array.isArray(j)){const l=j.filter(x=>x&&x.title&&x.slug);if(l.length){renderDocs(l);return}}}catch(e){}}
+}
+renderDocs(FALLBACK);loadMenu();
+
+function setLang(l){document.querySelectorAll('[data-i18n]').forEach(e=>{const v=T[l][e.dataset.i18n];if(v)e.textContent=v});
+ document.documentElement.lang=l;document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));refresh()}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+
+/* constellation + black hole: the cursor bends the star field around a dark core */
+const cv=document.getElementById('sky'),cx=cv.getContext('2d'),REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let W,H,D,pts=[],tx=-9999,ty=-9999,mx=-9999,my=-9999,str=0,idle=0;const LINK=140,R=240,R0=24;
+function init(){D=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0);
+ const n=Math.min(90,Math.round(W*H/17000));
+ pts=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.14,vy:(Math.random()-.5)*.14,r:Math.random()<.15?1.8:Math.random()*.8+.5,a:Math.random()*.5+.35,t:Math.random()*6.28,X:0,Y:0,k:1}))}
+function warp(p){let dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);p.k=1;
+ if(str>.01&&d<R){const f=Math.pow(1-d/R,2)*str,ang=f*.9,c=Math.cos(ang),s=Math.sin(ang),sc=1-f*.62;
+  const nx=(dx*c-dy*s)*sc,ny=(dx*s+dy*c)*sc;p.X=mx+nx;p.Y=my+ny;
+  const nd=Math.hypot(nx,ny);p.k=Math.min(1,Math.max(0,(nd-R0*str)/(R0*1.4)))}
+ else{p.X=p.x;p.Y=p.y}}
+/* text and blocks are pulled into the black hole too */
+function splitInto(el,re,keep){const t=el.textContent;el.textContent='';t.split(re).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){el.appendChild(document.createTextNode(' '));return}
+ const s=document.createElement('span');s.className='wd';s.textContent=p;el.appendChild(s)})}
+const splitWords=el=>{if(!el.querySelector('.wd'))splitInto(el,/(\s+)/)};
+const splitLetters=el=>splitInto(el,/(?:)/);
+function collect(){
+ document.querySelectorAll('.lead,.facts,h2,.sub,.foot>span:first-child').forEach(splitWords);
+ els=[...document.querySelectorAll('.wd,.btn,.doc,.logo,.lang button')].map(el=>({el,cx:-9999,cy:-9999,big:0,on:false}))}
+function measure(){
+ for(const e of els){e.el.style.translate='';e.el.style.rotate='';e.el.style.scale=''}
+ const sx=scrollX,sy=scrollY;
+ for(const e of els){const r=e.el.getBoundingClientRect();e.cx=r.left+r.width/2+sx;e.cy=r.top+r.height/2+sy;e.big=Math.min(120,Math.max(r.width,r.height)*.35)}}
+function warpDom(){const sx=scrollX,sy=scrollY;
+ for(const e of els){const dx=e.cx-sx-mx,dy=e.cy-sy-my,d=Math.hypot(dx,dy),Re=R+e.big;
+  if(str>.01&&d<Re){const f=Math.pow(1-d/Re,2)*str,ang=f*.9,c=Math.cos(ang),s=Math.sin(ang),sc=1-f*.62;
+   const nx=(dx*c-dy*s)*sc,ny=(dx*s+dy*c)*sc,k=Math.min(1,Math.max(0,(Math.hypot(nx,ny)-R0*str)/(R0*1.4))),st=e.el.style;
+   st.translate=(nx-dx).toFixed(1)+'px '+(ny-dy).toFixed(1)+'px';st.rotate=ang.toFixed(3)+'rad';st.scale=(1-f*.5).toFixed(3);st.opacity=k.toFixed(2);e.on=true}
+  else if(e.on){const st=e.el.style;st.translate='';st.rotate='';st.scale='';st.opacity='';e.on=false}}}
+function draw(){cx.clearRect(0,0,W,H);
+ mx+=(tx-mx)*.12;my+=(ty-my)*.12;idle++;str+=((idle<90?1:0)-str)*.04;if(tx<-999)str=0;
+ if(!REDUCED)warpDom();
+ for(const p of pts){if(!REDUCED){p.x+=p.vx;p.y+=p.vy;p.t+=.012;if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;if(p.y<-20)p.y=H+20;if(p.y>H+20)p.y=-20}warp(p)}
+ for(let i=0;i<pts.length;i++){const p=pts[i];
+  for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d>LINK)continue;
+   const m=Math.hypot((p.X+q.X)/2-mx,(p.Y+q.Y)/2-my),glow=m<180?(1-m/180)*str:0,a=(1-d/LINK)*(.1+glow*.45)*Math.min(p.k,q.k);
+   if(a<.005)continue;cx.strokeStyle='rgba(255,255,255,'+a.toFixed(3)+')';cx.lineWidth=.7;cx.beginPath();cx.moveTo(p.X,p.Y);cx.lineTo(q.X,q.Y);cx.stroke()}}
+ for(const p of pts){const tw=REDUCED?1:.75+.25*Math.sin(p.t);cx.fillStyle='rgba(255,255,255,'+(p.a*tw*p.k).toFixed(3)+')';cx.beginPath();cx.arc(p.X,p.Y,p.r,0,6.283);cx.fill()}
+ if(str>.02){const r=R0*str,gr=cx.createRadialGradient(mx,my,r*.9,mx,my,r*2.6);
+  gr.addColorStop(0,'rgba(255,255,255,'+(.28*str).toFixed(3)+')');gr.addColorStop(.35,'rgba(255,255,255,'+(.06*str).toFixed(3)+')');gr.addColorStop(1,'rgba(255,255,255,0)');
+  cx.fillStyle=gr;cx.beginPath();cx.arc(mx,my,r*2.6,0,6.283);cx.fill();
+  cx.fillStyle='#050505';cx.beginPath();cx.arc(mx,my,r,0,6.283);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,'+(.55*str).toFixed(3)+')';cx.lineWidth=1;cx.beginPath();cx.arc(mx,my,r,0,6.283);cx.stroke()}
+ if(!REDUCED)requestAnimationFrame(draw)}
+function aim(e){if(tx<-999){mx=e.clientX;my=e.clientY}tx=e.clientX;ty=e.clientY;idle=0}
+addEventListener('pointermove',aim,{passive:true});addEventListener('pointerdown',aim,{passive:true});
+document.addEventListener('pointerleave',()=>{tx=ty=-9999;str=0});
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{init();if(REDUCED)draw()},150)});
+init();
+document.querySelectorAll('h1 .w').forEach(splitLetters);
+domReady=true;collect();measure();setTimeout(measure,1800);
+if(document.fonts)document.fonts.ready.then(measure);
+new ResizeObserver(()=>refresh()).observe(document.body);addEventListener('load',measure);
+draw();
+</script>
 </body>
 </html>
