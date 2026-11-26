@@ -28,6 +28,10 @@
         "slug": "auto-seo"
     },
     {
+        "title": "Notifications",
+        "slug": "notifications"
+    },
+    {
         "title": "Manual Update",
         "slug": "manual-update"
     },
