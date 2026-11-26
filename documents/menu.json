@@ -14,5 +14,8 @@
     { "title": "Chinese Festivals Widget", "slug": "chinese-festivals" },
     { "title": "Widget Development", "slug": "widget-development" },
     { "title": "Plugins", "slug": "plugins" },
-    { "title": "Theme Development (Widget-First, Spotlight Example)", "slug": "theme-development" }
+    { "title": "Theme Development (Widget-First, Spotlight Example)", "slug": "theme-development" },
+    { "title": "Social Login", "slug": "social-login" },
+    { "title": "Error Pages", "slug": "error-pages" },
+    { "title": "Helper Functions (Developer)", "slug": "helper-functions" }
 ]
