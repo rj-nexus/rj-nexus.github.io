@@ -1,50 +1,18 @@
 [
-    {
-        "title": "Getting Started",
-        "slug": "getting-started"
-    },
-    {
-        "title": "Installation",
-        "slug": "installation"
-    },
-    {
-        "title": "Language Settings, Add Language & Translation",
-        "slug": "translations"
-    },
-    {
-        "title": "AI Setup (OpenRouter)",
-        "slug": "ai-setup"
-    },
-    {
-        "title": "Colors",
-        "slug": "colors"
-    },
-    {
-        "title": "Custom Colors (Developer)",
-        "slug": "color-developer"
-    },
-    {
-        "title": "Auto SEO",
-        "slug": "auto-seo"
-    },
-    {
-        "title": "Notifications",
-        "slug": "notifications"
-    },
-    {
-        "title": "Manual Update",
-        "slug": "manual-update"
-    },
-    {
-        "title": "RJ Builder",
-        "slug": "rj-builder"
-    },
-    {
-        "title": "Plugins",
-        "slug": "plugins"
-    },
-    {
-        "title": "Theme Development (Widget-First, Spotlight Example)",
-        "slug": "theme-development"
-    }
+    { "title": "Getting Started", "slug": "getting-started" },
+    { "title": "Installation", "slug": "installation" },
+    { "title": "Language Settings, Add Language & Translation", "slug": "translations" },
+    { "title": "AI Setup (OpenRouter)", "slug": "ai-setup" },
+    { "title": "Colors", "slug": "colors" },
+    { "title": "Custom Colors (Developer)", "slug": "color-developer" },
+    { "title": "Auto SEO", "slug": "auto-seo" },
+    { "title": "Caching", "slug": "caching" },
+    { "title": "Notifications", "slug": "notifications" },
+    { "title": "Manual Update", "slug": "manual-update" },
+    { "title": "RJ Builder", "slug": "rj-builder" },
+    { "title": "Text Widget", "slug": "text-widget" },
+    { "title": "Chinese Festivals Widget", "slug": "chinese-festivals" },
+    { "title": "Widget Development", "slug": "widget-development" },
+    { "title": "Plugins", "slug": "plugins" },
+    { "title": "Theme Development (Widget-First, Spotlight Example)", "slug": "theme-development" }
 ]
