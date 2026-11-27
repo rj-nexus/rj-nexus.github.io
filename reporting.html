@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Report unacceptable behavior – RJ Nexus</title>
+<meta name="description" content="How to report unacceptable behavior in RJ Nexus spaces, and what happens after you report.">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--ink:#f4f4f4;--mute:#a3a3a3;--dim:#6b6b6b;--line:rgba(255,255,255,.14);
+--hd:'Space Grotesk','Inter',system-ui,sans-serif;--tx:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+header,main,footer{position:relative;z-index:1}
+a{color:var(--ink);text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:28px 5vw}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 18px var(--hd);letter-spacing:.14em}
+.logo img{height:30px;width:auto;display:block}
+.logo span{color:var(--dim);font-weight:500;padding-left:12px;border-left:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:18px;font-size:14px}
+.nav a{color:var(--mute);text-decoration:none}
+.nav a:hover{color:var(--ink)}
+.lang{display:flex;gap:6px}
+.lang button{font:500 13px var(--tx);letter-spacing:.08em;background:none;color:var(--mute);cursor:pointer;padding:6px 12px;border:1px solid transparent;border-radius:999px}
+.lang button[aria-pressed=true]{color:var(--ink);border-color:var(--line)}
+
+.wrap{max-width:46rem;margin:0 auto;padding:6vh 5vw 0}
+h1{font:700 clamp(40px,8vw,84px)/1 var(--hd);letter-spacing:-.03em;margin-bottom:22px}
+h2{font:700 clamp(24px,3.2vw,32px)/1.15 var(--hd);letter-spacing:-.01em;margin:64px 0 14px}
+.lead{color:var(--mute);font-size:19px;max-width:40ch}
+p{margin:12px 0;color:var(--mute)}
+ul{margin:12px 0;padding-left:1.3rem;color:var(--mute)}
+li{margin:8px 0}
+strong{color:var(--ink)}
+
+.report{margin-top:40px;padding:28px 28px 26px;border:1px solid var(--line);border-radius:18px;background:rgba(5,5,5,.6);backdrop-filter:blur(6px)}
+.report .label{color:var(--dim);font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+.report .address{margin:8px 0 22px;font:700 clamp(22px,5.4vw,34px)/1.2 var(--hd);color:var(--ink);overflow-wrap:anywhere}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:500 15px var(--tx);text-decoration:none;cursor:pointer;transition:background .25s,color .25s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.primary:hover{background:transparent;color:var(--ink)}
+.hint{margin:18px 0 0;font-size:15px}
+
+.steps{list-style:none;margin:22px 0 0;padding:0;counter-reset:s}
+.steps li{position:relative;margin:0;padding:0 0 26px 58px;counter-increment:s}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--bg);color:var(--ink);font:700 15px var(--hd)}
+.steps li::after{content:"";position:absolute;left:19px;top:46px;bottom:6px;width:1px;background:var(--line)}
+.steps li:last-child{padding-bottom:0}
+.steps li:last-child::after{display:none}
+.steps b{display:block;color:var(--ink);font-weight:600}
+.steps span{color:var(--mute)}
+
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:20px}
+.out div{padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:rgba(5,5,5,.6);backdrop-filter:blur(4px)}
+.out b{display:block;font:700 17px var(--hd);color:var(--ink);margin-bottom:4px}
+.out span{color:var(--mute);font-size:15px}
+
+footer{margin-top:12vh;border-top:1px solid var(--line)}
+.foot{padding:26px 5vw 34px;color:var(--dim);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 40px;justify-content:space-between}
+.foot a{color:var(--mute);text-decoration:none;margin-left:16px}
+.foot a:hover{color:var(--ink)}
+
+@media(max-width:560px){.nav .doc{display:none}.report{padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header>
+  <a class="logo" href="https://rjnexus.org"><img src="https://raw.githubusercontent.com/mr-ruhid/rare-logos-vault/main/logo/cms/rj-nexus/logo_white.png" alt="RJ Nexus"><span>DOC</span></a>
+  <div class="nav">
+    <a class="doc" href="https://rj-nexus.github.io/documents/" data-i18n="nav_docs">Documentation</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-l="en" aria-pressed="true">EN</button>
+      <button data-l="az" aria-pressed="false">AZ</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 data-i18n="h1">Report unacceptable behavior</h1>
+  <p class="lead" data-i18n="lead">If someone in an RJ Nexus space has made you or others feel unsafe, harassed or unwelcome, tell us. A person reads every report, keeps it private and answers it.</p>
+
+  <section class="report" aria-labelledby="send-title">
+    <p class="label" id="send-title" data-i18n="send">Email your report to</p>
+    <p class="address" id="addr">rjnexus@hotmail.com</p>
+    <div class="actions">
+      <a class="btn primary" href="mailto:rjnexus@hotmail.com?subject=Conduct%20report" data-i18n="write">Write the email</a>
+      <button class="btn" type="button" id="copy" aria-live="polite" data-i18n="copy">Copy address</button>
+    </div>
+    <p class="hint" data-i18n="hint">Write in the language you are most comfortable with. You don’t need proof or the right words to report.</p>
+  </section>
+
+  <h2 data-i18n="h_where">Where this applies</h2>
+  <p data-i18n="p_where">The Code of Conduct covers the RJ Nexus repositories, issues and discussions on GitHub, this documentation site, and any other space where someone speaks for the project.</p>
+
+  <h2 data-i18n="h_inc">What to include</h2>
+  <ul>
+    <li data-i18n="inc1">Where it happened: a link, a screenshot or the name of the channel.</li>
+    <li data-i18n="inc2">Who was involved, as far as you know.</li>
+    <li data-i18n="inc3">What happened, in your own words, and roughly when.</li>
+    <li data-i18n="inc4">Whether you want a reply, and how to reach you.</li>
+  </ul>
+  <p data-i18n="p_inc">Leave out anything you are not comfortable sharing. A short report is still a report.</p>
+
+  <h2 data-i18n="h_after">What happens after you report</h2>
+  <ol class="steps">
+    <li><b data-i18n="s1t">We confirm</b><span data-i18n="s1d">You get a reply within 3 days saying that your report arrived and who is handling it.</span></li>
+    <li><b data-i18n="s2t">We look into it</b><span data-i18n="s2d">We read what you sent and, when needed, ask you or others for more context. Only the people who need to know see the report.</span></li>
+    <li><b data-i18n="s3t">We decide</b><span data-i18n="s3d">We choose the smallest response that stops the behavior and protects the people affected.</span></li>
+    <li><b data-i18n="s4t">We tell you</b><span data-i18n="s4d">You hear what was decided, as far as privacy allows, usually within 14 days. If it takes longer, we say why and when to expect news.</span></li>
+    <li><b data-i18n="s5t">We keep a private record</b><span data-i18n="s5d">Notes are stored privately so repeated problems are noticed. They are not shared.</span></li>
+  </ol>
+
+  <h2 data-i18n="h_out">Possible outcomes</h2>
+  <div class="out">
+    <div><b data-i18n="o1t">Reminder</b><span data-i18n="o1d">A private message explaining what was wrong and what is expected.</span></div>
+    <div><b data-i18n="o2t">Warning</b><span data-i18n="o2d">A written warning that says what happens if the behavior continues.</span></div>
+    <div><b data-i18n="o3t">Temporary restriction</b><span data-i18n="o3d">No posting, commenting or contributing in RJ Nexus spaces for a set period.</span></div>
+    <div><b data-i18n="o4t">Permanent removal</b><span data-i18n="o4d">A ban from all RJ Nexus spaces, used for serious or repeated violations.</span></div>
+  </div>
+  <p data-i18n="p_out">The outcome depends on the harm done, not on who is involved. Maintainers and long-time contributors follow the same rules as everyone else.</p>
+
+  <h2 data-i18n="h_priv">Your privacy and safety</h2>
+  <ul>
+    <li data-i18n="pv1">We don’t share your name or details with the person you reported without your permission, unless the law requires it.</li>
+    <li data-i18n="pv2">Retaliating against someone who reported in good faith is a violation on its own.</li>
+    <li data-i18n="pv3">If you disagree with a decision, reply to the same email and ask for a second look.</li>
+  </ul>
+
+  <h2 data-i18n="h_maint">If the report is about the maintainer</h2>
+  <p data-i18n="p_maint">If your report concerns the person who reads this inbox, you can report content on GitHub directly through <a href="https://github.com/contact/report-abuse">GitHub’s abuse reporting form</a>.</p>
+
+  <h2 data-i18n="h_else">Looking for something else?</h2>
+  <ul>
+    <li data-i18n="e1">Found a security vulnerability? Follow the <a href="https://github.com/rj-nexus/rj-nexus/security/policy">security policy</a> and don’t open a public issue.</li>
+    <li data-i18n="e2">Found a bug or want a feature? <a href="https://github.com/rj-nexus/rj-nexus/issues">Open an issue</a>.</li>
+    <li data-i18n="e3">Have a question? <a href="https://github.com/orgs/rj-nexus/discussions">Ask in Discussions</a>.</li>
+  </ul>
+</main>
+
+<footer>
+  <div class="foot">
+    <span data-i18n="upd">Last updated November 27, 2026</span>
+    <span><a href="https://rjnexus.org">rjnexus.org</a><a href="https://github.com/rj-nexus/rj-nexus">GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+var T = {
+en: {
+  nav_docs:'Documentation', h1:'Report unacceptable behavior',
+  lead:'If someone in an RJ Nexus space has made you or others feel unsafe, harassed or unwelcome, tell us. A person reads every report, keeps it private and answers it.',
+  send:'Email your report to', write:'Write the email', copy:'Copy address', copied:'Copied',
+  hint:'Write in the language you are most comfortable with. You don’t need proof or the right words to report.',
+  h_where:'Where this applies', p_where:'The Code of Conduct covers the RJ Nexus repositories, issues and discussions on GitHub, this documentation site, and any other space where someone speaks for the project.',
+  h_inc:'What to include', inc1:'Where it happened: a link, a screenshot or the name of the channel.', inc2:'Who was involved, as far as you know.', inc3:'What happened, in your own words, and roughly when.', inc4:'Whether you want a reply, and how to reach you.',
+  p_inc:'Leave out anything you are not comfortable sharing. A short report is still a report.',
+  h_after:'What happens after you report',
+  s1t:'We confirm', s1d:'You get a reply within 3 days saying that your report arrived and who is handling it.',
+  s2t:'We look into it', s2d:'We read what you sent and, when needed, ask you or others for more context. Only the people who need to know see the report.',
+  s3t:'We decide', s3d:'We choose the smallest response that stops the behavior and protects the people affected.',
+  s4t:'We tell you', s4d:'You hear what was decided, as far as privacy allows, usually within 14 days. If it takes longer, we say why and when to expect news.',
+  s5t:'We keep a private record', s5d:'Notes are stored privately so repeated problems are noticed. They are not shared.',
+  h_out:'Possible outcomes',
+  o1t:'Reminder', o1d:'A private message explaining what was wrong and what is expected.',
+  o2t:'Warning', o2d:'A written warning that says what happens if the behavior continues.',
+  o3t:'Temporary restriction', o3d:'No posting, commenting or contributing in RJ Nexus spaces for a set period.',
+  o4t:'Permanent removal', o4d:'A ban from all RJ Nexus spaces, used for serious or repeated violations.',
+  p_out:'The outcome depends on the harm done, not on who is involved. Maintainers and long-time contributors follow the same rules as everyone else.',
+  h_priv:'Your privacy and safety',
+  pv1:'We don’t share your name or details with the person you reported without your permission, unless the law requires it.',
+  pv2:'Retaliating against someone who reported in good faith is a violation on its own.',
+  pv3:'If you disagree with a decision, reply to the same email and ask for a second look.',
+  h_maint:'If the report is about the maintainer',
+  p_maint:'If your report concerns the person who reads this inbox, you can report content on GitHub directly through <a href="https://github.com/contact/report-abuse">GitHub’s abuse reporting form</a>.',
+  h_else:'Looking for something else?',
+  e1:'Found a security vulnerability? Follow the <a href="https://github.com/rj-nexus/rj-nexus/security/policy">security policy</a> and don’t open a public issue.',
+  e2:'Found a bug or want a feature? <a href="https://github.com/rj-nexus/rj-nexus/issues">Open an issue</a>.',
+  e3:'Have a question? <a href="https://github.com/orgs/rj-nexus/discussions">Ask in Discussions</a>.',
+  upd:'Last updated November 27, 2026'
+},
+az: {
+  nav_docs:'Sənədləşmə', h1:'Yolverilməz davranışı bildirin',
+  lead:'RJ Nexus mühitində kimsə sizi və ya başqalarını narahat, təhdid altında və ya arzuolunmaz hiss etdiribsə, bizə yazın. Hər bildirişi bir insan oxuyur, məxfi saxlayır və cavablandırır.',
+  send:'Bildirişi bu ünvana göndərin', write:'Məktub yaz', copy:'Ünvanı kopyala', copied:'Kopyalandı',
+  hint:'Özünüzü rahat hiss etdiyiniz dildə yazın. Bildiriş üçün sübut və ya düzgün sözlər lazım deyil.',
+  h_where:'Haraya aiddir', p_where:'Davranış Kodeksi RJ Nexus repozitoriyalarını, GitHub-dakı issue və müzakirələri, bu sənədləşmə saytını və kiminsə layihə adından çıxış etdiyi hər hansı başqa mühiti əhatə edir.',
+  h_inc:'Nələri yazmaq lazımdır', inc1:'Harada baş verib: link, ekran görüntüsü və ya kanalın adı.', inc2:'Bildiyiniz qədər kimlər iştirak edib.', inc3:'Nə baş verib (öz sözlərinizlə) və təxminən nə vaxt.', inc4:'Cavab istəyib-istəmədiyiniz və sizinlə necə əlaqə saxlamaq olar.',
+  p_inc:'Paylaşmaq istəmədiyiniz hər şeyi buraxın. Qısa bildiriş də bildirişdir.',
+  h_after:'Bildirişdən sonra nə baş verir',
+  s1t:'Təsdiq edirik', s1d:'3 gün ərzində bildirişin çatdığını və kimin baxdığını bildirən cavab alırsınız.',
+  s2t:'Araşdırırıq', s2d:'Göndərdiyinizi oxuyuruq və lazım olsa, sizdən və ya başqalarından əlavə məlumat istəyirik. Bildirişi yalnız bilməli olan şəxslər görür.',
+  s3t:'Qərar veririk', s3d:'Davranışı dayandıran və təsirlənənləri qoruyan ən yumşaq tədbiri seçirik.',
+  s4t:'Sizə bildiririk', s4d:'Məxfiliyin imkan verdiyi qədər nəyə qərar verildiyini öyrənirsiniz, adətən 14 gün ərzində. Daha çox çəkərsə, səbəbini və nə vaxt xəbər gözləmək lazım olduğunu deyirik.',
+  s5t:'Məxfi qeyd saxlayırıq', s5d:'Təkrarlanan problemlər görünsün deyə qeydlər məxfi saxlanılır. Heç kimlə paylaşılmır.',
+  h_out:'Mümkün nəticələr',
+  o1t:'Xatırlatma', o1d:'Nəyin səhv olduğunu və nə gözlənildiyini izah edən şəxsi mesaj.',
+  o2t:'Xəbərdarlıq', o2d:'Davranış davam edərsə nə olacağını göstərən yazılı xəbərdarlıq.',
+  o3t:'Müvəqqəti məhdudiyyət', o3d:'Müəyyən müddətə RJ Nexus mühitlərində paylaşım, şərh və töhfə qadağası.',
+  o4t:'Daimi uzaqlaşdırma', o4d:'Bütün RJ Nexus mühitlərindən qadağa, ciddi və ya təkrarlanan pozuntular üçün.',
+  p_out:'Nəticə vurulan zərərdən asılıdır, kimin iştirak etməsindən yox. Maintainer-lər və uzun müddətli töhfəçilər də hamı ilə eyni qaydalara tabedir.',
+  h_priv:'Məxfiliyiniz və təhlükəsizliyiniz',
+  pv1:'Qanun tələb etmirsə, icazəniz olmadan adınızı və təfərrüatları bildirdiyiniz şəxslə paylaşmırıq.',
+  pv2:'Xoş niyyətlə bildiriş verən şəxsdən qisas almaq özlüyündə pozuntudur.',
+  pv3:'Qərarla razı deyilsinizsə, eyni məktuba cavab yazıb təkrar baxılmasını istəyin.',
+  h_maint:'Bildiriş maintainer haqqındadırsa',
+  p_maint:'Bildirişiniz bu poçt qutusunu oxuyan şəxslə bağlıdırsa, GitHub-a birbaşa <a href="https://github.com/contact/report-abuse">GitHub-ın şikayət formu</a> vasitəsilə müraciət edə bilərsiniz.',
+  h_else:'Başqa bir şey axtarırsınız?',
+  e1:'Təhlükəsizlik boşluğu tapmısınız? <a href="https://github.com/rj-nexus/rj-nexus/security/policy">Təhlükəsizlik siyasətinə</a> əməl edin və açıq issue yaratmayın.',
+  e2:'Xəta tapmısınız və ya yeni funksiya istəyirsiniz? <a href="https://github.com/rj-nexus/rj-nexus/issues">Issue açın</a>.',
+  e3:'Sualınız var? <a href="https://github.com/orgs/rj-nexus/discussions">Discussions-da soruşun</a>.',
+  upd:'Son yenilənmə: 27 noyabr 2026'
+}};
+
+var cur = 'en';
+function setLang(l) {
+  cur = l;
+  document.querySelectorAll('[data-i18n]').forEach(function (e) {
+    var v = T[l][e.dataset.i18n];
+    if (v) { e.innerHTML = v; }
+  });
+  document.documentElement.lang = l;
+  document.querySelectorAll('.lang button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.l === l); });
+  try { localStorage.setItem('rj-lang', l); } catch (e) {}
+}
+document.querySelectorAll('.lang button').forEach(function (b) { b.onclick = function () { setLang(b.dataset.l); }; });
+var saved = null;
+try { saved = localStorage.getItem('rj-lang'); } catch (e) {}
+if (saved === 'az') { setLang('az'); }
+
+// Mail ünvanını kopyala
+(function () {
+  var btn = document.getElementById('copy'), addr = document.getElementById('addr');
+  if (!navigator.clipboard || !navigator.clipboard.writeText) { btn.hidden = true; return; }
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText(addr.textContent.trim()).then(function () {
+      btn.textContent = T[cur].copied;
+      setTimeout(function () { btn.textContent = T[cur].copy; }, 2000);
+    }).catch(function () {});
+  });
+})();
+
+// Ulduz xəritəsi + kursorun qara dəliyi (yalnız fon)
+var cv = document.getElementById('sky'), cx = cv.getContext('2d');
+var REDUCED = matchMedia('(prefers-reduced-motion:reduce)').matches;
+var W, H, D, pts = [], tx = -9999, ty = -9999, mx = -9999, my = -9999, str = 0, idle = 0;
+var LINK = 140, R = 240, R0 = 24;
+
+function init() {
+  D = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * D; cv.height = H * D; cx.setTransform(D, 0, 0, D, 0, 0);
+  var n = Math.min(90, Math.round(W * H / 17000));
+  pts = Array.from({ length: n }, function () {
+    return { x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .14, vy: (Math.random() - .5) * .14,
+      r: Math.random() < .15 ? 1.8 : Math.random() * .8 + .5, a: Math.random() * .5 + .35, t: Math.random() * 6.28, X: 0, Y: 0, k: 1 };
+  });
+}
+function warp(p) {
+  var dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy); p.k = 1;
+  if (str > .01 && d < R) {
+    var f = Math.pow(1 - d / R, 2) * str, ang = f * .9, c = Math.cos(ang), s = Math.sin(ang), sc = 1 - f * .62;
+    var nx = (dx * c - dy * s) * sc, ny = (dx * s + dy * c) * sc;
+    p.X = mx + nx; p.Y = my + ny;
+    p.k = Math.min(1, Math.max(0, (Math.hypot(nx, ny) - R0 * str) / (R0 * 1.4)));
+  } else { p.X = p.x; p.Y = p.y; }
+}
+function draw() {
+  cx.clearRect(0, 0, W, H);
+  mx += (tx - mx) * .12; my += (ty - my) * .12; idle++;
+  str += ((idle < 90 ? 1 : 0) - str) * .04; if (tx < -999) str = 0;
+  for (var i = 0; i < pts.length; i++) {
+    var p = pts[i];
+    if (!REDUCED) {
+      p.x += p.vx; p.y += p.vy; p.t += .012;
+      if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20; if (p.y > H + 20) p.y = -20;
+    }
+    warp(p);
+  }
+  for (var a = 0; a < pts.length; a++) {
+    var p1 = pts[a];
+    for (var b = a + 1; b < pts.length; b++) {
+      var q = pts[b], d = Math.hypot(p1.x - q.x, p1.y - q.y);
+      if (d > LINK) continue;
+      var m = Math.hypot((p1.X + q.X) / 2 - mx, (p1.Y + q.Y) / 2 - my);
+      var glow = m < 180 ? (1 - m / 180) * str : 0;
+      var al = (1 - d / LINK) * (.1 + glow * .45) * Math.min(p1.k, q.k);
+      if (al < .005) continue;
+      cx.strokeStyle = 'rgba(255,255,255,' + al.toFixed(3) + ')'; cx.lineWidth = .7;
+      cx.beginPath(); cx.moveTo(p1.X, p1.Y); cx.lineTo(q.X, q.Y); cx.stroke();
+    }
+  }
+  for (var j = 0; j < pts.length; j++) {
+    var s = pts[j], tw = REDUCED ? 1 : .75 + .25 * Math.sin(s.t);
+    cx.fillStyle = 'rgba(255,255,255,' + (s.a * tw * s.k).toFixed(3) + ')';
+    cx.beginPath(); cx.arc(s.X, s.Y, s.r, 0, 6.283); cx.fill();
+  }
+  if (str > .02) {
+    var r = R0 * str, gr = cx.createRadialGradient(mx, my, r * .9, mx, my, r * 2.6);
+    gr.addColorStop(0, 'rgba(255,255,255,' + (.28 * str).toFixed(3) + ')');
+    gr.addColorStop(.35, 'rgba(255,255,255,' + (.06 * str).toFixed(3) + ')');
+    gr.addColorStop(1, 'rgba(255,255,255,0)');
+    cx.fillStyle = gr; cx.beginPath(); cx.arc(mx, my, r * 2.6, 0, 6.283); cx.fill();
+    cx.fillStyle = '#050505'; cx.beginPath(); cx.arc(mx, my, r, 0, 6.283); cx.fill();
+    cx.strokeStyle = 'rgba(255,255,255,' + (.55 * str).toFixed(3) + ')'; cx.lineWidth = 1;
+    cx.beginPath(); cx.arc(mx, my, r, 0, 6.283); cx.stroke();
+  }
+  if (!REDUCED) requestAnimationFrame(draw);
+}
+function aim(e) { if (tx < -999) { mx = e.clientX; my = e.clientY; } tx = e.clientX; ty = e.clientY; idle = 0; }
+addEventListener('pointermove', aim, { passive: true });
+addEventListener('pointerdown', aim, { passive: true });
+document.addEventListener('pointerleave', function () { tx = ty = -9999; str = 0; });
+var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { init(); if (REDUCED) draw(); }, 150); });
+init(); draw();
+</script>
+</body>
+</html>
