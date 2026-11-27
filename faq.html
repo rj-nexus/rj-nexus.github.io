@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Code of Conduct FAQ – RJ Nexus</title>
+<meta name="description" content="Frequently asked questions about the RJ Nexus Code of Conduct: what it covers, how to report, and what happens next.">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/rj-nexus/rj-nexus.github.io/main/assets/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--ink:#f4f4f4;--mute:#a3a3a3;--dim:#6b6b6b;--line:rgba(255,255,255,.14);
+--hd:'Space Grotesk','Inter',system-ui,sans-serif;--tx:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+header,main,footer{position:relative;z-index:1}
+a{color:var(--ink);text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:28px 5vw}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 18px var(--hd);letter-spacing:.14em}
+.logo img{height:30px;width:auto;display:block}
+.logo span{color:var(--dim);font-weight:500;padding-left:12px;border-left:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:18px;font-size:14px}
+.nav a{color:var(--mute);text-decoration:none}
+.nav a:hover{color:var(--ink)}
+.lang{display:flex;gap:6px}
+.lang button{font:500 13px var(--tx);letter-spacing:.08em;background:none;color:var(--mute);cursor:pointer;padding:6px 12px;border:1px solid transparent;border-radius:999px}
+.lang button[aria-pressed=true]{color:var(--ink);border-color:var(--line)}
+
+.wrap{max-width:46rem;margin:0 auto;padding:6vh 5vw 0}
+h1{font:700 clamp(36px,7.5vw,76px)/1.02 var(--hd);letter-spacing:-.03em;margin-bottom:22px;overflow-wrap:anywhere}
+.lead{color:var(--mute);font-size:19px;max-width:42ch}
+p{margin:12px 0;color:var(--mute)}
+ul{margin:10px 0;padding-left:1.3rem;color:var(--mute)}
+li{margin:6px 0}
+
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:36px 0 18px}
+.search{flex:1 1 220px;min-width:0;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(5,5,5,.6);color:var(--ink);font:400 15px var(--tx)}
+.search::placeholder{color:var(--dim)}
+.search:focus{outline:none;border-color:rgba(255,255,255,.55)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:500 15px var(--tx);text-decoration:none;cursor:pointer;transition:background .25s,color .25s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.primary:hover{background:transparent;color:var(--ink)}
+
+.faq{display:grid;gap:10px}
+details{border:1px solid var(--line);border-radius:14px;background:rgba(5,5,5,.6);backdrop-filter:blur(4px);transition:border-color .25s}
+details[open]{border-color:rgba(255,255,255,.4)}
+summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:18px 22px;font:600 17px/1.4 var(--tx);color:var(--ink)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;flex:none;color:var(--dim);font:500 22px/1 var(--tx);transition:transform .25s,color .25s}
+details[open] summary::after{transform:rotate(45deg);color:var(--ink)}
+summary:hover::after{color:var(--ink)}
+.ans{padding:0 22px 20px;color:var(--mute)}
+.ans p:first-child{margin-top:0}
+.ans p:last-child{margin-bottom:0}
+.empty{display:none;padding:26px;text-align:center;color:var(--dim);border:1px dashed var(--line);border-radius:14px;margin-top:10px}
+.empty.on{display:block}
+
+.cta{margin-top:56px;padding:28px;border:1px solid var(--line);border-radius:18px;background:rgba(5,5,5,.6);backdrop-filter:blur(6px)}
+.cta h2{font:700 clamp(22px,3vw,28px)/1.2 var(--hd);margin-bottom:8px;color:var(--ink)}
+.cta .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+
+footer{margin-top:12vh;border-top:1px solid var(--line)}
+.foot{padding:26px 5vw 34px;color:var(--dim);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 40px;justify-content:space-between}
+.foot a{color:var(--mute);text-decoration:none;margin-left:16px}
+.foot a:hover{color:var(--ink)}
+
+@media(max-width:560px){.nav .doc{display:none}summary{padding:16px}.ans{padding:0 16px 18px}.cta{padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header>
+  <a class="logo" href="https://rjnexus.org"><img src="https://raw.githubusercontent.com/mr-ruhid/rare-logos-vault/main/logo/cms/rj-nexus/logo_white.png" alt="RJ Nexus"><span>DOC</span></a>
+  <div class="nav">
+    <a class="doc" href="https://rj-nexus.github.io/documents/" data-i18n="nav_docs">Documentation</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-l="en" aria-pressed="true">EN</button>
+      <button data-l="az" aria-pressed="false">AZ</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 data-i18n="h1">Code of Conduct FAQ</h1>
+  <p class="lead" data-i18n="lead">Short answers about the RJ Nexus Code of Conduct: what it covers, how to report a problem, and what happens next.</p>
+
+  <div class="tools">
+    <input class="search" id="q" type="search" autocomplete="off" aria-label="Search" placeholder="Search questions...">
+    <button class="btn" type="button" id="toggle">Expand all</button>
+  </div>
+
+  <div class="faq" id="faq"></div>
+  <p class="empty" id="empty">No questions match your search.</p>
+
+  <section class="cta" aria-labelledby="cta-t">
+    <h2 id="cta-t" data-i18n="cta_h">Still need help?</h2>
+    <p data-i18n="cta_p">If you want to report something, or your question isn’t answered here, write to us. A person reads every message.</p>
+    <div class="actions">
+      <a class="btn primary" href="https://rj-nexus.github.io/reporting.html" data-i18n="cta_report">How to report</a>
+      <a class="btn" href="mailto:rjnexus@hotmail.com?subject=Code%20of%20Conduct%20question" data-i18n="cta_mail">Email us</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span data-i18n="upd">Last updated November 27, 2026</span>
+    <span><a href="https://rjnexus.org">rjnexus.org</a><a href="https://github.com/rj-nexus/rj-nexus">GitHub</a></span>
+  </div>
+</footer>
+
+<script type="application/ld+json" id="ld"></script>
+
+<script>
+var REPORT = 'https://rj-nexus.github.io/reporting.html';
+var MAIL = 'rjnexus@hotmail.com';
+
+var UI = {
+en: { nav_docs:'Documentation', h1:'Code of Conduct FAQ',
+  lead:'Short answers about the RJ Nexus Code of Conduct: what it covers, how to report a problem, and what happens next.',
+  ph:'Search questions...', expand:'Expand all', collapse:'Collapse all', none:'No questions match your search.',
+  cta_h:'Still need help?', cta_p:'If you want to report something, or your question isn’t answered here, write to us. A person reads every message.',
+  cta_report:'How to report', cta_mail:'Email us', upd:'Last updated November 27, 2026' },
+az: { nav_docs:'Sənədləşmə', h1:'Davranış Kodeksi: tez-tez verilən suallar',
+  lead:'RJ Nexus Davranış Kodeksi haqqında qısa cavablar: nəyi əhatə edir, problemi necə bildirmək olar və bundan sonra nə baş verir.',
+  ph:'Suallarda axtar...', expand:'Hamısını aç', collapse:'Hamısını bağla', none:'Axtarışa uyğun sual tapılmadı.',
+  cta_h:'Hələ də kömək lazımdır?', cta_p:'Nəsə bildirmək istəyirsinizsə və ya sualınızın cavabı burada yoxdursa, bizə yazın. Hər mesajı bir insan oxuyur.',
+  cta_report:'Necə bildirmək olar', cta_mail:'Bizə yazın', upd:'Son yenilənmə: 27 noyabr 2026' }
+};
+
+var QA = {
+en: [
+ ['What is the Code of Conduct?',
+  '<p>It is a short set of rules for how people treat each other in RJ Nexus spaces. It says what behavior we expect, what we do not accept, and how problems are handled.</p>'],
+ ['Why does RJ Nexus have one?',
+  '<p>Open source works best when people feel safe to ask questions, report bugs and contribute. A written code makes the rules clear to everyone and gives people a way to get help when something goes wrong.</p>'],
+ ['Where does it apply?',
+  '<p>It covers the RJ Nexus repositories, issues and discussions on GitHub, the documentation site, and any other space where someone speaks for the project.</p>'],
+ ['Who has to follow it?',
+  '<p>Everyone: users, contributors, maintainers and visitors. Maintainers and long-time contributors follow the same rules as everyone else.</p>'],
+ ['What counts as unacceptable behavior?',
+  '<p>Examples include:</p><ul><li>Harassment, threats or personal attacks.</li><li>Discrimination or insulting remarks about a person or group.</li><li>Sexualized language or unwanted attention.</li><li>Publishing someone’s private information without permission.</li><li>Deliberate disruption, trolling or sustained spam.</li></ul><p>This is not a complete list. If something makes people feel unsafe or unwelcome, you can report it.</p>'],
+ ['Can we still disagree or criticize?',
+  '<p>Yes. Disagreeing with a technical decision, reviewing code critically and reporting bugs are all welcome. The Code of Conduct asks you to do it respectfully and to criticize ideas and work, not people.</p>'],
+ ['How do I report a problem?',
+  '<p>Email <a href="mailto:' + MAIL + '?subject=Conduct%20report">' + MAIL + '</a>. See <a href="' + REPORT + '">how to report</a> for what to include.</p>'],
+ ['Do I need proof to report?',
+  '<p>No. A link, a screenshot or a short description is enough. Leave out anything you are not comfortable sharing. A short report is still a report.</p>'],
+ ['Can I report anonymously?',
+  '<p>You can leave out your name, but then we cannot reply to you, ask for more context or tell you what was decided. If you want an answer, include a way to reach you.</p>'],
+ ['Who sees my report?',
+  '<p>Only the people who need to know in order to handle it. Notes are stored privately and are not shared.</p>'],
+ ['Will the person I report be told who reported them?',
+  '<p>Not without your permission, unless the law requires it.</p>'],
+ ['How long does it take to get an answer?',
+  '<p>You get a confirmation within 3 days. You usually hear what was decided within 14 days, as far as privacy allows. If it takes longer, we tell you why and when to expect news.</p>'],
+ ['What happens to someone who breaks the code?',
+  '<p>We choose the smallest response that stops the behavior and protects the people affected. Possible outcomes are a reminder, a written warning, a temporary restriction, or permanent removal for serious or repeated violations. The outcome depends on the harm done, not on who is involved.</p>'],
+ ['What if the report is about a maintainer?',
+  '<p>If your report concerns the person who reads the inbox, you can report content on GitHub directly through <a href="https://github.com/contact/report-abuse">GitHub’s abuse reporting form</a>.</p>'],
+ ['Is retaliation allowed?',
+  '<p>No. Retaliating against someone who reported in good faith is a violation on its own.</p>'],
+ ['What if I disagree with a decision?',
+  '<p>Reply to the same email and ask for a second look.</p>'],
+ ['Is this the right place to report a bug or a security issue?',
+  '<p>No. For a bug or feature request, <a href="https://github.com/rj-nexus/rj-nexus/issues">open an issue</a>. For a security vulnerability, follow the <a href="https://github.com/rj-nexus/rj-nexus/security/policy">security policy</a> and do not open a public issue. For questions, use <a href="https://github.com/orgs/rj-nexus/discussions">Discussions</a>.</p>'],
+ ['Can I use this Code of Conduct in my own project?',
+  '<p>The text follows the Django Code of Conduct template offered by GitHub. You can adopt the same template for your own project and adjust the community name, contact and reporting details.</p>']
+],
+az: [
+ ['Davranış Kodeksi nədir?',
+  '<p>Bu, RJ Nexus mühitlərində insanların bir-birinə necə münasibət göstərməli olduğunu izah edən qısa qaydalar toplusudur. Hansı davranışı gözlədiyimizi, nəyi qəbul etmədiyimizi və problemlərin necə həll olunduğunu göstərir.</p>'],
+ ['RJ Nexus-un niyə belə bir kodeksi var?',
+  '<p>Açıq mənbə o zaman yaxşı işləyir ki, insanlar sual verməyi, xəta bildirməyi və töhfə verməyi təhlükəsiz hiss etsinlər. Yazılı kodeks qaydaları hamı üçün aydın edir və nəsə səhv gedəndə kömək almaq yolu verir.</p>'],
+ ['Haraya aiddir?',
+  '<p>RJ Nexus repozitoriyalarını, GitHub-dakı issue və müzakirələri, sənədləşmə saytını və kiminsə layihə adından çıxış etdiyi hər hansı başqa mühiti əhatə edir.</p>'],
+ ['Kim ona əməl etməlidir?',
+  '<p>Hamı: istifadəçilər, töhfəçilər, maintainer-lər və ziyarətçilər. Maintainer-lər və uzun müddətli töhfəçilər də hamı ilə eyni qaydalara tabedir.</p>'],
+ ['Hansı davranış yolverilməz sayılır?',
+  '<p>Nümunələr:</p><ul><li>Təqib, hədə və ya şəxsi hücumlar.</li><li>Bir şəxsə və ya qrupa qarşı ayrı-seçkilik və ya təhqiramiz sözlər.</li><li>Cinsiyyətləşdirilmiş dil və ya arzuolunmaz diqqət.</li><li>Kiminsə şəxsi məlumatını icazəsiz yaymaq.</li><li>Qəsdən pozuculuq, trolluq və ya davamlı spam.</li></ul><p>Bu, tam siyahı deyil. Nəsə insanları narahat və ya arzuolunmaz hiss etdirirsə, bildirə bilərsiniz.</p>'],
+ ['Yenə də razılaşmamaq və ya tənqid etmək olar?',
+  '<p>Bəli. Texniki qərarla razılaşmamaq, kodu tənqidi nəzərdən keçirmək və xəta bildirmək xoş qarşılanır. Kodeks bunu hörmətlə etməyi və insanları yox, ideyaları və işi tənqid etməyi xahiş edir.</p>'],
+ ['Problemi necə bildirim?',
+  '<p><a href="mailto:' + MAIL + '?subject=Conduct%20report">' + MAIL + '</a> ünvanına yazın. Nələri yazmaq lazım olduğunu <a href="' + REPORT + '">bildiriş səhifəsində</a> görə bilərsiniz.</p>'],
+ ['Bildiriş üçün sübut lazımdır?',
+  '<p>Xeyr. Link, ekran görüntüsü və ya qısa təsvir kifayətdir. Paylaşmaq istəmədiyiniz hər şeyi buraxın. Qısa bildiriş də bildirişdir.</p>'],
+ ['Anonim bildirmək olar?',
+  '<p>Adınızı yaza bilməzsiniz, amma onda sizə cavab verə, əlavə məlumat istəyə və qərarı bildirə bilmərik. Cavab istəyirsinizsə, əlaqə yolu yazın.</p>'],
+ ['Bildirişimi kim görür?',
+  '<p>Yalnız həll etmək üçün bilməli olan şəxslər. Qeydlər məxfi saxlanılır və paylaşılmır.</p>'],
+ ['Bildirdiyim şəxsə kimin bildirdiyi deyilir?',
+  '<p>İcazəniz olmadan xeyr, qanun tələb etmədikcə.</p>'],
+ ['Cavab almaq nə qədər çəkir?',
+  '<p>3 gün ərzində təsdiq alırsınız. Məxfiliyin imkan verdiyi qədər qərarı adətən 14 gün ərzində öyrənirsiniz. Daha çox çəkərsə, səbəbini və nə vaxt xəbər gözləmək lazım olduğunu deyirik.</p>'],
+ ['Kodeksi pozan şəxsə nə olur?',
+  '<p>Davranışı dayandıran və təsirlənənləri qoruyan ən yumşaq tədbiri seçirik. Mümkün nəticələr: xatırlatma, yazılı xəbərdarlıq, müvəqqəti məhdudiyyət, ciddi və ya təkrarlanan pozuntularda daimi uzaqlaşdırma. Nəticə vurulan zərərdən asılıdır, kimin iştirak etməsindən yox.</p>'],
+ ['Bildiriş maintainer haqqındadırsa?',
+  '<p>Bildirişiniz poçt qutusunu oxuyan şəxslə bağlıdırsa, GitHub-a birbaşa <a href="https://github.com/contact/report-abuse">GitHub-ın şikayət formu</a> vasitəsilə müraciət edə bilərsiniz.</p>'],
+ ['Qisas almağa icazə var?',
+  '<p>Xeyr. Xoş niyyətlə bildiriş verən şəxsdən qisas almaq özlüyündə pozuntudur.</p>'],
+ ['Qərarla razı deyiləmsə?',
+  '<p>Eyni məktuba cavab yazıb təkrar baxılmasını istəyin.</p>'],
+ ['Xəta və ya təhlükəsizlik problemi bildirmək üçün doğru yer buradır?',
+  '<p>Xeyr. Xəta və ya yeni funksiya üçün <a href="https://github.com/rj-nexus/rj-nexus/issues">issue açın</a>. Təhlükəsizlik boşluğu üçün <a href="https://github.com/rj-nexus/rj-nexus/security/policy">təhlükəsizlik siyasətinə</a> əməl edin və açıq issue yaratmayın. Suallar üçün <a href="https://github.com/orgs/rj-nexus/discussions">Discussions</a>-dan istifadə edin.</p>'],
+ ['Bu Davranış Kodeksini öz layihəmdə istifadə edə bilərəm?',
+  '<p>Mətn GitHub-ın təklif etdiyi Django Davranış Kodeksi şablonuna əsaslanır. Eyni şablonu öz layihənizdə də tətbiq edib icmanın adını, əlaqə və bildiriş məlumatlarını dəyişə bilərsiniz.</p>']
+]};
+
+var cur = 'en';
+var faq = document.getElementById('faq');
+var q = document.getElementById('q');
+var empty = document.getElementById('empty');
+var toggle = document.getElementById('toggle');
+
+function plain(html) { var d = document.createElement('div'); d.innerHTML = html; return d.textContent || ''; }
+
+function build() {
+  faq.innerHTML = '';
+  QA[cur].forEach(function (item) {
+    var d = document.createElement('details');
+    var s = document.createElement('summary');
+    s.textContent = item[0];
+    var a = document.createElement('div');
+    a.className = 'ans';
+    a.innerHTML = item[1];
+    d.appendChild(s); d.appendChild(a);
+    d.dataset.t = (item[0] + ' ' + plain(item[1])).toLowerCase();
+    faq.appendChild(d);
+  });
+  filter();
+  updToggle();
+  schema();
+}
+
+function filter() {
+  var v = q.value.trim().toLowerCase(), shown = 0;
+  faq.querySelectorAll('details').forEach(function (d) {
+    var ok = !v || d.dataset.t.indexOf(v) > -1;
+    d.hidden = !ok;
+    if (ok) { shown++; }
+  });
+  empty.classList.toggle('on', shown === 0);
+}
+
+function updToggle() {
+  var all = faq.querySelectorAll('details:not([hidden])');
+  var open = faq.querySelectorAll('details[open]:not([hidden])');
+  toggle.textContent = (all.length && open.length === all.length) ? UI[cur].collapse : UI[cur].expand;
+}
+
+function schema() {
+  var data = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: QA[cur].map(function (i) {
+      return { '@type': 'Question', name: i[0], acceptedAnswer: { '@type': 'Answer', text: i[1] } };
+    })
+  };
+  document.getElementById('ld').textContent = JSON.stringify(data);
+}
+
+function setLang(l) {
+  cur = l;
+  document.querySelectorAll('[data-i18n]').forEach(function (e) {
+    var v = UI[l][e.dataset.i18n];
+    if (v) { e.textContent = v; }
+  });
+  q.placeholder = UI[l].ph;
+  empty.textContent = UI[l].none;
+  document.documentElement.lang = l;
+  document.querySelectorAll('.lang button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.l === l); });
+  try { localStorage.setItem('rj-lang', l); } catch (e) {}
+  build();
+}
+
+document.querySelectorAll('.lang button').forEach(function (b) { b.onclick = function () { setLang(b.dataset.l); }; });
+q.addEventListener('input', function () { filter(); updToggle(); });
+faq.addEventListener('toggle', updToggle, true);
+toggle.addEventListener('click', function () {
+  var items = faq.querySelectorAll('details:not([hidden])');
+  var open = faq.querySelectorAll('details[open]:not([hidden])').length !== items.length;
+  items.forEach(function (d) { d.open = open; });
+  updToggle();
+});
+
+// Səhifə #sual-nömrəsi ilə açılırsa həmin sualı aç
+var saved = null;
+try { saved = localStorage.getItem('rj-lang'); } catch (e) {}
+setLang(saved === 'az' ? 'az' : 'en');
+
+// Ulduz xəritəsi + kursorun qara dəliyi (yalnız fon)
+var cv = document.getElementById('sky'), cx = cv.getContext('2d');
+var REDUCED = matchMedia('(prefers-reduced-motion:reduce)').matches;
+var W, H, D, pts = [], tx = -9999, ty = -9999, mx = -9999, my = -9999, str = 0, idle = 0;
+var LINK = 140, R = 240, R0 = 24;
+
+function init() {
+  D = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * D; cv.height = H * D; cx.setTransform(D, 0, 0, D, 0, 0);
+  var n = Math.min(90, Math.round(W * H / 17000));
+  pts = Array.from({ length: n }, function () {
+    return { x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .14, vy: (Math.random() - .5) * .14,
+      r: Math.random() < .15 ? 1.8 : Math.random() * .8 + .5, a: Math.random() * .5 + .35, t: Math.random() * 6.28, X: 0, Y: 0, k: 1 };
+  });
+}
+function warp(p) {
+  var dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy); p.k = 1;
+  if (str > .01 && d < R) {
+    var f = Math.pow(1 - d / R, 2) * str, ang = f * .9, c = Math.cos(ang), s = Math.sin(ang), sc = 1 - f * .62;
+    var nx = (dx * c - dy * s) * sc, ny = (dx * s + dy * c) * sc;
+    p.X = mx + nx; p.Y = my + ny;
+    p.k = Math.min(1, Math.max(0, (Math.hypot(nx, ny) - R0 * str) / (R0 * 1.4)));
+  } else { p.X = p.x; p.Y = p.y; }
+}
+function draw() {
+  cx.clearRect(0, 0, W, H);
+  mx += (tx - mx) * .12; my += (ty - my) * .12; idle++;
+  str += ((idle < 90 ? 1 : 0) - str) * .04; if (tx < -999) str = 0;
+  for (var i = 0; i < pts.length; i++) {
+    var p = pts[i];
+    if (!REDUCED) {
+      p.x += p.vx; p.y += p.vy; p.t += .012;
+      if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20; if (p.y > H + 20) p.y = -20;
+    }
+    warp(p);
+  }
+  for (var a = 0; a < pts.length; a++) {
+    var p1 = pts[a];
+    for (var b = a + 1; b < pts.length; b++) {
+      var q2 = pts[b], d = Math.hypot(p1.x - q2.x, p1.y - q2.y);
+      if (d > LINK) continue;
+      var m = Math.hypot((p1.X + q2.X) / 2 - mx, (p1.Y + q2.Y) / 2 - my);
+      var glow = m < 180 ? (1 - m / 180) * str : 0;
+      var al = (1 - d / LINK) * (.1 + glow * .45) * Math.min(p1.k, q2.k);
+      if (al < .005) continue;
+      cx.strokeStyle = 'rgba(255,255,255,' + al.toFixed(3) + ')'; cx.lineWidth = .7;
+      cx.beginPath(); cx.moveTo(p1.X, p1.Y); cx.lineTo(q2.X, q2.Y); cx.stroke();
+    }
+  }
+  for (var j = 0; j < pts.length; j++) {
+    var s2 = pts[j], tw = REDUCED ? 1 : .75 + .25 * Math.sin(s2.t);
+    cx.fillStyle = 'rgba(255,255,255,' + (s2.a * tw * s2.k).toFixed(3) + ')';
+    cx.beginPath(); cx.arc(s2.X, s2.Y, s2.r, 0, 6.283); cx.fill();
+  }
+  if (str > .02) {
+    var r = R0 * str, gr = cx.createRadialGradient(mx, my, r * .9, mx, my, r * 2.6);
+    gr.addColorStop(0, 'rgba(255,255,255,' + (.28 * str).toFixed(3) + ')');
+    gr.addColorStop(.35, 'rgba(255,255,255,' + (.06 * str).toFixed(3) + ')');
+    gr.addColorStop(1, 'rgba(255,255,255,0)');
+    cx.fillStyle = gr; cx.beginPath(); cx.arc(mx, my, r * 2.6, 0, 6.283); cx.fill();
+    cx.fillStyle = '#050505'; cx.beginPath(); cx.arc(mx, my, r, 0, 6.283); cx.fill();
+    cx.strokeStyle = 'rgba(255,255,255,' + (.55 * str).toFixed(3) + ')'; cx.lineWidth = 1;
+    cx.beginPath(); cx.arc(mx, my, r, 0, 6.283); cx.stroke();
+  }
+  if (!REDUCED) requestAnimationFrame(draw);
+}
+function aim(e) { if (tx < -999) { mx = e.clientX; my = e.clientY; } tx = e.clientX; ty = e.clientY; idle = 0; }
+addEventListener('pointermove', aim, { passive: true });
+addEventListener('pointerdown', aim, { passive: true });
+document.addEventListener('pointerleave', function () { tx = ty = -9999; str = 0; });
+var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { init(); if (REDUCED) draw(); }, 150); });
+init(); draw();
+</script>
+</body>
+</html>
