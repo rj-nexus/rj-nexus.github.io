@@ -17,5 +17,6 @@
     { "title": "Theme Development (Widget-First, Spotlight Example)", "slug": "theme-development" },
     { "title": "Social Login", "slug": "social-login" },
     { "title": "Error Pages", "slug": "error-pages" },
-    { "title": "Helper Functions (Developer)", "slug": "helper-functions" }
+    { "title": "Helper Functions (Developer)", "slug": "helper-functions" },
+    { "title": "Developer Guide (Setup, Architecture & Contributing)", "slug": "developer-guide" }
 ]
